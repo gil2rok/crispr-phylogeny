@@ -1,3 +1,5 @@
+import os
+import pickle
 import numpy as np
 import cassiopeia as cas
 
@@ -7,6 +9,7 @@ from util import extract_compact_Q
 
 seed =10
 rng = np.random.default_rng(seed)
+path = 'data' # relative path to data directory
 
 def simulate_evolutionary_tree():
     # instantiate BirthDeathFitnessSimulator() object and simulate tree
@@ -22,9 +25,9 @@ def simulate_evolutionary_tree():
     )
     true_tree = bd_sim.simulate_tree()
     
-    # plot tree
-    fig = cas.pl.plot_plotly(true_tree, random_state=seed)
-    fig.show()
+    # uncomment below to plot phylogenetic tree
+    # fig = cas.pl.plot_plotly(true_tree, random_state=seed)
+    # fig.show()
     
     return true_tree
 
@@ -46,6 +49,7 @@ def lineage_tracing(true_tree, params, num_sites, num_states):
     lt_sim.overlay_data(true_tree)    
 
 def main():    
+    # hyper-parameters and parameters
     num_sites = 40
     num_states = 50
     params = {'mutation_rate': np.repeat(0.1, num_sites), # mutation rates [λM_1, λM_2, ..., λM_NumSites]
@@ -53,11 +57,18 @@ def main():
               'transition_prob': {i: 1/num_states for i in range(num_states)}} # simplex P = [p_1 ... p_NumStates]
               # ^ probability p_i of transitioning from unedited state to mutated state i
 
+    # simulate evolutionary tree and overly CRISPR-Cas9 data on top of it
     true_tree = simulate_evolutionary_tree()
     lineage_tracing(true_tree, params, num_sites, num_states)
-    Q_compact = extract_compact_Q(params['mutation_rate'], params['deletion_rate'])
 
-    # save Q_compact, transition_prob, and true_tree.character_matrix
+    # save true tree
+    fname = os.path.join(path, 'true_tree')
+    file = open(fname, 'wb+')
+    pickle.dump(true_tree, file)
+    
+    # save params to recreate infinitesimal generator Q
+    fname = os.path.join(path, 'params')
+    np.savez_compressed(fname, params=params)
 
 if __name__ == '__main__':
     main()
