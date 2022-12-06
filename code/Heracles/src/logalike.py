@@ -67,11 +67,11 @@ def transition_matrix(t, Q):
     state s_j t "time units" after state s_i.
     
     Args:
-        t ([1x1]): time
-        Q ([NxN]): infinitesimal generator
+        t [1x1]: time
+        Q [NxN]: infinitesimal generator
 
     Returns:
-        P ([NxN]): transition matrix
+        P [NxN]: transition matrix
     """
     
     P = torch.matrix_exp(Q * t)
