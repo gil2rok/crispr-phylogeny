@@ -5,7 +5,6 @@ import cassiopeia as cas
 
 from cassiopeia.sim import BirthDeathFitnessSimulator
 from cassiopeia.sim import Cas9LineageTracingDataSimulator
-from util import extract_compact_Q
 
 seed =10
 rng = np.random.default_rng(seed)
@@ -28,6 +27,7 @@ def simulate_evolutionary_tree():
     # uncomment below to plot phylogenetic tree
     # fig = cas.pl.plot_plotly(true_tree, random_state=seed)
     # fig.show()
+    # TODO: use fig.write_html('path')
     
     return true_tree
 
@@ -52,9 +52,9 @@ def main():
     # hyper-parameters and parameters
     num_sites = 40
     num_states = 50
-    params = {'mutation_rate': np.repeat(0.1, num_sites), # mutation rates [λM_1, λM_2, ..., λM_NumSites]
-              'deletion_rate': np.array([9e-4]), # deletion rate λD
-              'transition_prob': {i: 1/num_states for i in range(num_states)}} # simplex P = [p_1 ... p_NumStates]
+    params = {'mutation_rate': np.repeat(0.1, num_sites),                       # mutation rates [λM_1, λM_2, ..., λM_NumSites]
+              'deletion_rate': np.array([9e-4]),                                # deletion rate λD
+              'transition_prob': {i: 1/num_states for i in range(num_states)}}  # simplex P = [p_1 ... p_NumStates]
               # ^ probability p_i of transitioning from unedited state to mutated state i
 
     # simulate evolutionary tree and overly CRISPR-Cas9 data on top of it
@@ -68,7 +68,8 @@ def main():
     
     # save params to recreate infinitesimal generator Q
     fname = os.path.join(path, 'params')
-    np.savez_compressed(fname, params=params)
+    file = open(fname, 'wb+')
+    pickle.dump(params, file)
 
 if __name__ == '__main__':
     main()
