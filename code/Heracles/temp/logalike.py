@@ -47,7 +47,7 @@ class Logalike(torch.nn.Module):
                 s_i = self.character_matrix[i, site] # state at site s for cell i
                 s_j = self.character_matrix[j, site] # state at site s for cell j 
                 A = feasible_ancestors(s_i, s_j, self.num_states)
-                print('\t\t\tOriginal Indicies:', s_i, s_j, A)
+
                 # map state idx [-1, 0, 1 ... M] into transition matrix P idx
                 s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
                 
@@ -58,9 +58,6 @@ class Logalike(torch.nn.Module):
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
                 
-                print(cur.item(), '\t', t1, t2, t3)
-                if cur.item() == 0:
-                    print('\t\t\tMapped Indicies:', s_i, s_j, A, P)
                 assert(torch.all(cur > 0))
                 total += torch.log(cur)
         return total
@@ -122,8 +119,23 @@ def map_indices(s_i, s_j, A, site, num_sites):
         A (list): modified feasible ancestors
     """
     
-    s_i = site if s_i == 0 else s_i + num_sites
-    s_j = site if s_j == 0 else s_j + num_sites
+    if s_i == 0:
+        s_i = site
+    elif s_i == -1:
+        s_i = -1
+    else:
+        s_i += num_sites
+        
+    if s_j == 0:
+        s_j = site
+    elif s_j == -1:
+        s_j = -1
+    else:
+        s_j += num_sites
+        
+          
+    # s_i = site if s_i == 0 else s_i + num_sites
+    # s_j = site if s_j == 0 else s_j + num_sites
     A = [site if a == 0 else a + num_sites for a in A]
     
     return s_i, s_j, A
