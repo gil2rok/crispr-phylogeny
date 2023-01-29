@@ -39,7 +39,6 @@ class Logalike(torch.nn.Module):
             if j == i: continue
             
             dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
-            # dist = distance_anthony(self.X[i, :], self.X[j, :], self.rho)
             for site in range(self.num_sites): # iterate over all target sites
                 
                 Q = self.Q_list[site] # site-specific infinitesimal generator Q 
@@ -65,47 +64,6 @@ class Logalike(torch.nn.Module):
                 assert(torch.all(cur > 0))
                 total += torch.log(cur)
         return total
-
-def arcosh(x: torch.Tensor):
-    dtype = x.dtype
-    z = torch.sqrt(torch.clamp_min(x.double().pow(2) - 1.0, 1e-15))
-    return torch.log(x + z).to(dtype)
-
-def _inner(u, v, keepdim: bool = False, dim: int = -1):
-    d = u.size(dim) - 1
-    uv = u * v
-    if keepdim is False:
-        return -uv.narrow(dim, 0, 1).sum(dim=dim, keepdim=False) + uv.narrow(
-            dim, 1, d
-        ).sum(dim=dim, keepdim=False)
-    else:
-        return torch.cat((-uv.narrow(dim, 0, 1), uv.narrow(dim, 1, d)), dim=dim).sum(
-            dim=dim, keepdim=True
-        )
-        
-def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
-    d = -_inner(x, y, dim=dim, keepdim=keepdim)
-    return torch.sqrt(k) * torch.arccosh(d / k)
-
-
-def distance_anthony(pt0, pt1, rho):
-    """
-    Return the distances between two points on the hyperboloid.
-    """
-    mdp = minkowski_dot(pt0, pt1)
-    arccosh_arg = -1 * mdp / (rho ** 2)
-    if arccosh_arg < 1:
-        arccosh_arg = torch.tensor(1, dtype=torch.float64)
-    return rho * torch.arccosh(arccosh_arg)
-    
-def minkowski_dot(u, v):
-    """
-    `u` and `v` are vectors in Minkowski space.
-    """
-    rank = u.shape[-1] - 1
-    euc_dp = u[:rank].dot(v[:rank])
-    return euc_dp - u[rank] * v[rank]
-
 
 def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j
