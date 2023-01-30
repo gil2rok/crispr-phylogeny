@@ -17,8 +17,8 @@ def transition_matrix(t, Q):
         P [num_states+num_sites+1 x num_states+num_sites+1]: transition matrix P
     """
     
-    P =  expm(t.detach().numpy() * Q)
-    return torch.tensor(P, dtype=torch.float64)
+    return torch.matrix_exp(t * Q)
+    # return torch.tensor(P, dtype=torch.float64)
 
     # P = expm(t * Q) # Scipy's matrix exponentiation function
     # return torch.tensor(P) # convert to tensor for auto-differentiation

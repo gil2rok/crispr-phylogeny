@@ -59,6 +59,7 @@ class Logalike(torch.nn.Module):
                     cur += t1 * t2 * t3
                 
                 assert(torch.all(cur > 0))
+                # print(cur, t1, t2, t3)
                 total += torch.log(cur)
         return total
 
