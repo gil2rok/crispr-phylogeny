@@ -3,87 +3,75 @@ import geoopt
 
 from scipy.linalg import expm
 
+from util.misc_util import transition_matrix
+
 class Logalike(torch.nn.Module):
     def __init__(self, 
-                 rho,
+                 X,
+                 priors,
+                 Q_list,
                  character_matrix,
-                 init_points,
-                 num_mutations,
-                 S,):
+                 num_states,
+                 rho):
 
         super().__init__()
         
-        self.X_init = init_points # init location of cells [N x ?]
         self.character_matrix = character_matrix # sequence data [N x N]
+        
+        # site-specific parameters
+        self.priors = priors # TODO: not being used at the moment
+        self.Q_list = Q_list # list of infinitesimal generators [Q1 ... Q_{num_sites}]
         
         # TODO: use these variable names everywhere!!
         self.num_cells = self.character_matrix.shape[0] # number of cells
         self.num_sites = self.character_matrix.shape[1] # number of target sites
-        self.num_mutations = num_mutations # num feasible mutations at each site
-        self.num_states = S # number of possible states
+        self.num_states = num_states # number of possible states
                 
         self.rho = rho # negative curvature
         self.manifold = geoopt.Lorentz(self.rho) # hyperbolic manifold
         
-        # taxa location in hyperbolic space, learnable parameter [N x ?]
-        self.X = geoopt.ManifoldParameter(
-            self.X_init
-        )
+        # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
+        self.X = geoopt.ManifoldParameter(X)
 
-    def forward(self, Q, i):
+    def forward(self, i):
         total = 0
         for j in range(self.num_cells): # iterate over all cells
             if j == i: continue
             
-            dist = self.manifold.dist(self.X[i:i+1], self.X[j:j+1]) # geodesic btwn x_i and x_j
-            P = transition_matrix(dist/2, Q) # compute transition matrix
-            print(torch.count_nonzero(P))
-            
+            dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
             for site in range(self.num_sites): # iterate over all target sites
+                
+                Q = self.Q_list[site] # site-specific infinitesimal generator Q 
+                P = transition_matrix(dist/2, Q) # site-specific transition matrix P
+                
                 s_i = self.character_matrix[i, site] # state at site s for cell i
-                s_j = self.character_matrix[j, site] # state at site s for cell j
+                s_j = self.character_matrix[j, site] # state at site s for cell j 
+                A = feasible_ancestors(s_i, s_j, self.num_states)
+
+                # map state idx [-1, 0, 1 ... M] into transition matrix P idx
+                s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
                 
                 cur = 0
-                A = feasible_ancestors(s_i, s_j, self.num_mutations[site])
                 for a in A: # iterate over all feasible ancestors
                     t1 = stationary_dist(self.num_states)
                     t2 = P[a, s_i]
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
                 
-                print(cur.item(), '\t', t1, t2.item(), t3.item())
+                print(t1, t2, t3)
+                print(Q)
                 assert(torch.all(cur > 0))
                 total += torch.log(cur)
-        return total / self.num_cells
+        return total
 
-def transition_matrix(t, Q):
-    """ compute transition matrix P
-    TODO: may need to be vectorized
-    TODO: convert to compact computation
-    
-    s_i represents the state at site sigma for
-    cell i. Furthermore, P_{s_i, s_j}(t) represents 
-    the conditional probability of observing
-    state s_j t "time units" after state s_i.
-    
-    Args:
-        t [1x1]: time
-        Q [NxN]: infinitesimal generator
-
-    Returns:
-        P [NxN]: transition matrix
-    """
-    
-    P = torch.matrix_exp(Q * t)
-    return P
-
-def feasible_ancestors(s_i, s_j, num_mutations):
+def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j
     TODO: may need to be vectorized
     
     Args:
         s_j [1] : state at site s for cell j
         s_i [1] : state at site s for cell i
+        num_states (int): number of possible mutation states
 
     Returns:
         A ([1 x ?]): feasible ancestors of states s_i, s_j
@@ -94,14 +82,12 @@ def feasible_ancestors(s_i, s_j, num_mutations):
         A = torch.tensor([0])
     
     # if have a deleted state
-    elif s_i == 'D' or s_j == 'D':
+    elif s_i == -1 or s_j == -1:
         
-        # if both states are deleted, ancestor may be unedited, mutations 1...M, or deleted
-        if s_i == 'D' and s_j == 'D':
-            mutations = torch.arange(1, num_mutations+1)
-            A = torch.cat(torch.tensor([0]),
-                          mutations,
-                          torch.tensor(['D']))
+        # if both states are deleted, ancestor may be unedited or mutations 1...M
+        # ancestor may not be deleted -- continue to previous ancestor
+        if s_i == -1 and s_j == -1:
+            A = torch.arange(0, num_states +1)
             
         # if one state deleted and the other unedited, ancestor is unedited
         elif s_i == 0 or s_j == 0:
@@ -123,7 +109,40 @@ def feasible_ancestors(s_i, s_j, num_mutations):
         
     return A
 
-def stationary_dist(S):
+def map_indices(s_i, s_j, A, site, num_sites):
+    """ map feasible ancestors to correct indicies in transition matrix P
+
+    Args:
+        A (list): feasible ancestors
+        num_sites (int): number of target sites
+        site (int): target site at which feasible ancestors is being computed 
+
+    Returns:
+        A (list): modified feasible ancestors
+    """
+    
+    if s_i == 0:
+        s_i = site
+    elif s_i == -1:
+        s_i = -1
+    else:
+        s_i += num_sites
+        
+    if s_j == 0:
+        s_j = site
+    elif s_j == -1:
+        s_j = -1
+    else:
+        s_j += num_sites
+        
+          
+    # s_i = site if s_i == 0 else s_i + num_sites
+    # s_j = site if s_j == 0 else s_j + num_sites
+    A = [site if a == 0 else a + num_sites for a in A]
+    
+    return s_i, s_j, A
+
+def stationary_dist(num_states):
     """ probability of state s_i according to stationary distribution
     TODO: fix assumption that stationary distribution is uniform, instead use Felsenstein’s algorithm
             Sitatra already implmented this in est_lca_priors
@@ -142,5 +161,5 @@ def stationary_dist(S):
     Returns:
         [1]: probability of base s_i under stationary distribution pi
     """
-    pi_si = 1 / S
+    pi_si = 1 / num_states
     return pi_si
