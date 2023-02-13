@@ -30,7 +30,7 @@ class Logalike(torch.nn.Module):
         self.rho = rho # negative curvature
         self.manifold = geoopt.Lorentz(self.rho) # hyperbolic manifold
         
-        # taxa location in hyperbolic space, learnable parameter [N x ?]
+        # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
         self.X = geoopt.ManifoldParameter(X)
 
     def forward(self, i):
@@ -58,8 +58,9 @@ class Logalike(torch.nn.Module):
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
                 
+                print(t1, t2, t3)
+                print(Q)
                 assert(torch.all(cur > 0))
-                # print(cur, t1, t2, t3)
                 total += torch.log(cur)
         return total
 
