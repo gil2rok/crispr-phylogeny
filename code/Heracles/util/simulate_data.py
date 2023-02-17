@@ -52,7 +52,7 @@ def main():
     # hyper-parameters and parameters
     num_sites = 5
     num_states = 15
-    params = {'mutation_rate': np.repeat(0.2, num_sites),                       # mutation rates [λM_1, λM_2, ..., λM_NumSites]
+    params = {'mutation_rate': np.repeat(0.4, num_sites),                       # mutation rates [λM_1, λM_2, ..., λM_NumSites]
               'deletion_rate': np.array([9e-4]),                                # deletion rate λD
               'transition_prob': {i: 1/num_states for i in range(num_states)}}  # simplex P = [p_1 ... p_NumStates]
               # ^ probability p_i of transitioning from unedited state to mutated state i

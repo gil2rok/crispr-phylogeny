@@ -1,9 +1,9 @@
 import torch
 import geoopt
-
-from scipy.linalg import expm
+import matplotlib.pyplot as plt
 
 from util.misc_util import transition_matrix
+
 
 class Logalike(torch.nn.Module):
     def __init__(self, 
@@ -38,7 +38,9 @@ class Logalike(torch.nn.Module):
         for j in range(self.num_cells): # iterate over all cells
             if j == i: continue
             
-            dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
+            # dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
+            dist = _dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
+            #print(dist)
             for site in range(self.num_sites): # iterate over all target sites
                 
                 Q = self.Q_list[site] # site-specific infinitesimal generator Q 
@@ -58,11 +60,37 @@ class Logalike(torch.nn.Module):
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
                 
-                print(t1, t2, t3)
-                print(Q)
                 assert(torch.all(cur > 0))
                 total += torch.log(cur)
         return total
+    
+###### not my code #####
+def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
+    d = -_inner(x, y, dim=dim, keepdim=keepdim)
+    return torch.sqrt(k) * arcosh(d / k)
+
+def _inner(u, v, keepdim: bool = False, dim: int = -1):
+    d = u.size(dim) - 1
+    uv = u * v
+    if keepdim is False:
+        return -uv.narrow(dim, 0, 1).sum(dim=dim, keepdim=False) + uv.narrow(
+            dim, 1, d
+        ).sum(dim=dim, keepdim=False)
+    else:
+        return torch.cat((-uv.narrow(dim, 0, 1), uv.narrow(dim, 1, d)), dim=dim).sum(
+            dim=dim, keepdim=True
+        )
+        
+def arcosh(x: torch.Tensor):
+    dtype = x.dtype
+    
+    # x = -x # TODO: delete this line
+    x = torch.max(x, torch.tensor([1])) # TODO: evaluate if change is necessary
+    
+    z = torch.sqrt(torch.clamp_min(x.double().pow(2) - 1.0, 1e-15)) # clamp_min equivalent to max
+    temp = torch.log(x + z).to(dtype)
+    #print('temp ', x, z)
+    return temp
 
 def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j
