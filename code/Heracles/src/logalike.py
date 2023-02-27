@@ -35,6 +35,7 @@ class Logalike(torch.nn.Module):
 
     def forward(self, i):
         total = 0
+        count = 0
         for j in range(self.num_cells): # iterate over all cells
             if j == i: continue
             
@@ -67,21 +68,23 @@ class Logalike(torch.nn.Module):
                     assert(torch.all(cur > 0))
                     total += torch.log(cur)
                 except:
-                    ic(dist.item())
-                    ic(t2.item(), t3.item())
-                    ic(tuple1)
-                    ic(tuple2)
+                    #ic(dist.item())
+                    #ic(t2.item(), t3.item())
+                    #ic(tuple1)
+                    #ic(tuple2)
+                    count += 1
+        if count > 0: ic(count)
         return total
 
 def minkowski_dot(x, y):
-    return -(x[0:1] @ y[0:1]) + (x[1:] @ y[1:])
+    # return -(x[0:1] @ y[0:1]) + (x[1:] @ y[1:]) # wikpedia convention
+    return (x[:-1] @ y[:-1]) - (x[-1:] @ y[-1:]) # Wilson convention
 
 def my_dist(x, y, k):
     # wilson implementation of hyperbolic distance
     
     mkd = minkowski_dot(x,y)
     arg = -mkd / k.pow(2)
-    arg *= -1 # TODO: delete
     arg = torch.clamp(arg, min=torch.tensor([1])) # proper clamping
     return k * torch.acosh(arg) # valid domain is [1, inf]
 
