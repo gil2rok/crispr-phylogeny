@@ -18,7 +18,6 @@ def transition_matrix(t, Q):
     Returns:
         P [num_states+num_sites+1 x num_states+num_sites+1]: transition matrix P
     """
-    
     P = torch.matrix_exp(t * Q)
     return P
 
@@ -75,7 +74,7 @@ def estimate_tree(dist_matrix, method):
     elif method == 'neighbor-joining':
         tree = dist_matrix.nj_tree()
     else:
-        raise ValueError('invalid method for estimate phylogenetic tree')
+        raise ValueError('invalid method to estimate phylogenetic tree')
     
     return tree
 
