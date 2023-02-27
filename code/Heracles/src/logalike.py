@@ -39,8 +39,9 @@ class Logalike(torch.nn.Module):
             if j == i: continue
             
             # dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
-            dist = _dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
-            #print(dist)
+            #dist = _dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
+            dist = my_dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
+            assert(not torch.isnan(dist))
             for site in range(self.num_sites): # iterate over all target sites
                 
                 Q = self.Q_list[site] # site-specific infinitesimal generator Q 
@@ -49,9 +50,12 @@ class Logalike(torch.nn.Module):
                 s_i = self.character_matrix[i, site] # state at site s for cell i
                 s_j = self.character_matrix[j, site] # state at site s for cell j 
                 A = feasible_ancestors(s_i, s_j, self.num_states)
+                
+                tuple1 = (s_i, s_j, A, site) # TODO: delete
 
                 # map state idx [-1, 0, 1 ... M] into transition matrix P idx
                 s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
+                tuple2 = (s_i, s_j, A, site) # TODO: delete
                 
                 cur = 0
                 for a in A: # iterate over all feasible ancestors
@@ -60,11 +64,32 @@ class Logalike(torch.nn.Module):
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
                 
-                assert(torch.all(cur > 0))
+                try:
+                    assert(torch.all(cur > 0))
+                except:
+                    # ic(dist.item())
+                    ic(t2.item())
+                    ic(t3.item())
+                    
+                    ic(tuple1)
+                    ic(tuple2)
+                    return total
                 total += torch.log(cur)
         return total
+
+def minkowski_dot(x, y):
+    return -(x[0:1] @ y[0:1]) + (x[1:] @ y[1:])
+
+def my_dist(x, y, k):
+    # wilson implementation of hyperbolic distance
     
-###### not my code #####
+    mkd = minkowski_dot(x,y)
+    arg = -mkd / k.pow(2)
+    arg *= -1 # TODO: delete
+    arg = torch.clamp(arg, min=torch.tensor([1])) # proper clamping
+    return k * torch.acosh(arg) # valid domain is [1, inf]
+
+###### start of not my code #####
 def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
     d = -_inner(x, y, dim=dim, keepdim=keepdim)
     return torch.sqrt(k) * arcosh(d / k)
@@ -83,14 +108,12 @@ def _inner(u, v, keepdim: bool = False, dim: int = -1):
         
 def arcosh(x: torch.Tensor):
     dtype = x.dtype
-    
-    # x = -x # TODO: delete this line
     x = torch.max(x, torch.tensor([1])) # TODO: evaluate if change is necessary
-    
-    z = torch.sqrt(torch.clamp_min(x.double().pow(2) - 1.0, 1e-15)) # clamp_min equivalent to max
+    z = torch.sqrt(torch.clamp_min(x.double().pow(2) - 1.0, 1e-15)) # clamp_min is equivalent to max
     temp = torch.log(x + z).to(dtype)
-    #print('temp ', x, z)
     return temp
+
+###### end of not my code ######
 
 def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j
@@ -105,6 +128,8 @@ def feasible_ancestors(s_i, s_j, num_states):
         A ([1 x ?]): feasible ancestors of states s_i, s_j
     """
     
+    # TODO: transform ancester set A from a tensor to a list -- no need for backprop info
+        
     # if states s_i and s_j are both unedited, their ancestor is unedited
     if s_i == s_j == 0:
         A = torch.tensor([0])
@@ -121,7 +146,7 @@ def feasible_ancestors(s_i, s_j, num_states):
         elif s_i == 0 or s_j == 0:
             A = torch.tensor([0])
             
-        # if one state deleted and the other mutated, ancestor is unedited or mutated
+        # if one state deleted and the other mutated, ancestor is unedited (0) or mutated
         else:
             A = torch.tensor([0, s_i + s_j])
        
@@ -141,7 +166,7 @@ def map_indices(s_i, s_j, A, site, num_sites):
     """ map feasible ancestors to correct indicies in transition matrix P
 
     Args:
-        A (list): feasible ancestors
+        A (tensor): feasible ancestors
         num_sites (int): number of target sites
         site (int): target site at which feasible ancestors is being computed 
 
@@ -166,7 +191,8 @@ def map_indices(s_i, s_j, A, site, num_sites):
           
     # s_i = site if s_i == 0 else s_i + num_sites
     # s_j = site if s_j == 0 else s_j + num_sites
-    A = [site if a == 0 else a + num_sites for a in A]
+    # A = [site if a == 0 else a + num_sites for a in A]
+    A = [site if a == 0 else a + num_sites - 1 for a in A] #TODO: check if correct
     
     return s_i, s_j, A
 
@@ -190,4 +216,4 @@ def stationary_dist(num_states):
         [1]: probability of base s_i under stationary distribution pi
     """
     pi_si = 1 / num_states
-    return pi_si
+    return torch.tensor([pi_si])

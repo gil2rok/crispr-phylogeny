@@ -91,9 +91,7 @@ def embed_tree(tree, rho, num_cells, local_dim=2):
     for key, val in tree_dict.items():
         if key.taxon is not None:
             X[counter] = torch.tensor(val)
-            counter += 1
-            
-            print(val)
+            counter += 1            
             assert(hyperboloid.contains(val))
     return X
 
