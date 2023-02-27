@@ -51,11 +51,8 @@ class Logalike(torch.nn.Module):
                 s_j = self.character_matrix[j, site] # state at site s for cell j 
                 A = feasible_ancestors(s_i, s_j, self.num_states)
                 
-                tuple1 = (s_i, s_j, A, site) # TODO: delete
-
                 # map state idx [-1, 0, 1 ... M] into transition matrix P idx
                 s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
-                tuple2 = (s_i, s_j, A, site) # TODO: delete
                 
                 cur = 0
                 for a in A: # iterate over all feasible ancestors
@@ -66,15 +63,9 @@ class Logalike(torch.nn.Module):
                 
                 try:
                     assert(torch.all(cur > 0))
+                    total += torch.log(cur)
                 except:
-                    # ic(dist.item())
-                    ic(t2.item())
-                    ic(t3.item())
-                    
-                    ic(tuple1)
-                    ic(tuple2)
-                    return total
-                total += torch.log(cur)
+                    ic(dist.item())
         return total
 
 def minkowski_dot(x, y):
@@ -179,14 +170,14 @@ def map_indices(s_i, s_j, A, site, num_sites):
     elif s_i == -1:
         s_i = -1
     else:
-        s_i += num_sites
+        s_i += num_sites - 1
         
     if s_j == 0:
         s_j = site
     elif s_j == -1:
         s_j = -1
     else:
-        s_j += num_sites
+        s_j += num_sites - 1
         
           
     # s_i = site if s_i == 0 else s_i + num_sites
