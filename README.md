@@ -3,7 +3,7 @@
 
 HERACLES algorithm reconstructs CRISPR-Cas9 phylogenetic lineages with hyperbolic embeddings.
 
-**Note: this repo is currently under active development**
+**Note: this repo is under active development and is not yet fully functional**
 
 ## Overview
 
