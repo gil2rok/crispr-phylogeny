@@ -2,6 +2,7 @@ import torch
 import geoopt
 import matplotlib.pyplot as plt
 
+from util.hyperboloid_wilson import Hyperboloid
 from util.misc_util import transition_matrix
 
 
@@ -32,17 +33,28 @@ class Logalike(torch.nn.Module):
         
         # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
         self.X = geoopt.ManifoldParameter(X)
+        
+        self.hyperboloid = Hyperboloid(rho.detach().numpy(), X.shape[1]-1) # TODO: delete
 
     def forward(self, i):
         total = 0
-        count = 0
         for j in range(self.num_cells): # iterate over all cells
             if j == i: continue
             
-            # dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
+            dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
             #dist = _dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
-            dist = my_dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
+            # dist = my_dist(self.X[i, :], self.X[j, :], self.rho) # geodesic btwn x_i and x_j
+            
             assert(not torch.isnan(dist))
+            try:
+                assert(dist != 0)
+            except:
+                ic(i, self.X[i, :].detach())
+                ic(j, self.X[j, :].detach())
+                
+                
+            assert(self.hyperboloid.contains(self.X[i, :].detach().numpy()))
+            
             for site in range(self.num_sites): # iterate over all target sites
                 
                 Q = self.Q_list[site] # site-specific infinitesimal generator Q 
@@ -51,11 +63,9 @@ class Logalike(torch.nn.Module):
                 s_i = self.character_matrix[i, site] # state at site s for cell i
                 s_j = self.character_matrix[j, site] # state at site s for cell j 
                 A = feasible_ancestors(s_i, s_j, self.num_states)
-                tuple1 = (s_i, s_j, A)
                 
                 # map state idx [-1, 0, 1 ... M] into transition matrix P idx
                 s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
-                tuple2 = (s_i, s_j, A)
                 
                 cur = 0
                 for a in A: # iterate over all feasible ancestors
@@ -63,17 +73,8 @@ class Logalike(torch.nn.Module):
                     t2 = P[a, s_i]
                     t3 = P[a, s_j]
                     cur += t1 * t2 * t3
-                
-                try:
-                    assert(torch.all(cur > 0))
-                    total += torch.log(cur)
-                except:
-                    #ic(dist.item())
-                    #ic(t2.item(), t3.item())
-                    #ic(tuple1)
-                    #ic(tuple2)
-                    count += 1
-        if count > 0: ic(count)
+                    
+                total += torch.log(cur)
         return total
 
 def minkowski_dot(x, y):
@@ -87,6 +88,10 @@ def my_dist(x, y, k):
     arg = -mkd / k.pow(2)
     arg = torch.clamp(arg, min=torch.tensor([1])) # proper clamping
     return k * torch.acosh(arg) # valid domain is [1, inf]
+
+def contains(v, rho, atol=1e-7):
+    mdp = _inner(v, v)
+    return torch.allclose(mdp, -torch.pow(rho, 2), atol=atol)
 
 ###### start of not my code #####
 def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
