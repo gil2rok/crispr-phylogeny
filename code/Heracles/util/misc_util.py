@@ -81,6 +81,7 @@ def estimate_tree(dist_matrix, method):
 def embed_tree(tree, rho, num_cells, local_dim=2):
     # embed tree into hyperboloid model of hyperbolic space
     # TODO: hyperboloid_wilson.py generates random samples -- add seed
+    
     hyperboloid = Hyperboloid(rho.detach().numpy(), local_dim)
     tree_dict = hyperboloid.embed_tree(tree)
     
@@ -89,11 +90,12 @@ def embed_tree(tree, rho, num_cells, local_dim=2):
     X = torch.zeros(size=(num_cells, local_dim + 1))
     for key, val in tree_dict.items():
         if key.taxon is not None:
-            X[counter] = torch.tensor(val, dtype=torch.float64)
+            X[counter] = torch.tensor(val)
             counter += 1            
             assert(hyperboloid.contains(val))
-    return X
+    return X.double()
 
+# TODO: delete this function
 def embed_tree2(manifold, num_cells, embedding_dim):
     X = manifold.random_normal((num_cells, embedding_dim), std=3)
     return X.detach()
