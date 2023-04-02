@@ -62,8 +62,7 @@ class Logalike(torch.nn.Module):
             if j == i: continue
             
             dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
-            
-            assert(contains(self.X[i,:], self.rho))     
+            assert(contains(self.X[i,:], self.rho ))     
 
             for site in range(self.num_sites): # iterate over all target sites
                 
@@ -140,12 +139,13 @@ def contains(v, rho, atol=1e-7):
     mdp = mdp.double()
     
     mdp1 = mdp.detach().numpy()
-    rho1 = -torch.pow(rho,2).detach().numpy() 
-    ic(mdp1)
-    ic(rho1)
+    rho1 = -torch.pow(rho, 2).detach().numpy() 
+    
+    # ic(mdp1)
+    # ic(rho1)
     
     assert(v[0] > 0) # geoopt convention
-    return torch.allclose(mdp, -torch.pow(rho, 2), atol=atol)
+    return torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or torch.allclose(mdp, - rho, atol=atol)
 
 ###### start of not my code #####
 def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
