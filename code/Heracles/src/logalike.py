@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from util.hyperboloid_wilson import Hyperboloid
-from util.misc_util import transition_matrix
+from util.util import transition_matrix
 
 def swap(X):
     d = X.shape[1]
@@ -50,20 +50,23 @@ class Logalike(torch.nn.Module):
         self.rho = rho # negative curvature
         self.manifold = geoopt.Lorentz(self.rho) # hyperbolic manifold
         
-        # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
+        # check for valid emedding X
         check_wilson(X, self.rho) # ensure X is in Wilson hyperboloid
-        X = geoopt.ManifoldTensor(swap(X), manifold=self.manifold)
-        self.X = geoopt.ManifoldParameter(X)
-        check_geoopt(self.X, self.rho) # ensure X is NOW in geoopt hyperboloid
+        X = swap(X)
+        check_geoopt(X, self.rho) # ensure X is in geoopt hyperboloid
         
+        # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
+        self.X = geoopt.ManifoldTensor(X, manifold=self.manifold)
+        self.X = geoopt.ManifoldParameter(self.X)
+    
     def forward(self, i):
+        assert(contains(self.X[i,:], self.rho ))  # ensure X is on hyperboloid   
+        
         total = 0
         for j in range(self.num_cells): # iterate over all cells
             if j == i: continue
             
             dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
-            assert(contains(self.X[i,:], self.rho ))     
-
             for site in range(self.num_sites): # iterate over all target sites
                 
                 Q = self.Q_list[site] # site-specific infinitesimal generator Q 
@@ -85,72 +88,13 @@ class Logalike(torch.nn.Module):
                     
                 total += torch.log(cur)
         return total
-    
-    def manual_grad(self, i):
-        total = 0
-        for j in range(self.num_cells): # iterate over num cells
-            dist = self.manifold.dist(self.X[i, :], self.X[j, :]) # geodesic btwn x_i and x_j
-            for site in range(self.num_sites): # iterate over all target sites
-                
-                Q = self.Q_list[site] # site-specific infinitesimal generator Q 
-                P = transition_matrix(dist/2, Q) # site-specific transition matrix P
-                
-                s_i = self.character_matrix[i, site] # state at site s for cell i
-                s_j = self.character_matrix[j, site] # state at site s for cell j 
-                A = feasible_ancestors(s_i, s_j, self.num_states)
-                
-                # map state idx [-1, 0, 1 ... M] into transition matrix P idx
-                s_i, s_j, A = map_indices(s_i, s_j, A, site, self.num_sites)
-                
-                num, den = 0, 0
-                for a in A: # iterate over all feasible ancestors
-                    t1 = stationary_dist(self.num_states)
-                    t2 = P[a, s_i]
-                    t3 = P[a, s_j]
-                    
-                    num += t1 * t2 * t3 * (Q[a, s_i] + Q[a, s_j])
-                    den += t1 * t2 * t3
-                    
-                den *= 2
-                dist_grad = self.grad_dist(self.X[i,:], self.X[j,:])
-                total += (num / den) * dist_grad
-        return total
-                
-    def grad_dist(self, u, v):
-        num = torch.pow(self.rho, -2) * _inner(u, v) * u - v
-        temp = (torch.pow(self.rho, -1) * _inner(u, v)) ** 2
-        den = torch.sqrt(temp - torch.pow(self.rho, 2))
-        return num / den
-
-def minkowski_dot(x, y):
-    # return -(x[0:1] @ y[0:1]) + (x[1:] @ y[1:]) # geoopt convention
-    return (x[:-1] @ y[:-1]) - (x[-1:] @ y[-1:]) # Wilson convention
-
-def my_dist(x, y, k):
-    # wilson implementation of hyperbolic distance
-    
-    mkd = minkowski_dot(x,y)
-    arg = -mkd / k.pow(2)
-    arg = torch.clamp(arg, min=torch.tensor([1])) # proper clamping
-    return k * torch.acosh(arg) # valid domain is [1, inf]
 
 def contains(v, rho, atol=1e-7):
     mdp = _inner(v, v) # geoopt convention
     mdp = mdp.double()
     
-    mdp1 = mdp.detach().numpy()
-    rho1 = -torch.pow(rho, 2).detach().numpy() 
-    
-    # ic(mdp1)
-    # ic(rho1)
-    
     assert(v[0] > 0) # geoopt convention
     return torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or torch.allclose(mdp, - rho, atol=atol)
-
-###### start of not my code #####
-def _dist(x, y, k: torch.Tensor, keepdim: bool = False, dim: int = -1):
-    d = -_inner(x, y, dim=dim, keepdim=keepdim)
-    return torch.sqrt(k) * arcosh(d / k)
 
 def _inner(u, v, keepdim: bool = False, dim: int = -1):
     d = u.size(dim) - 1
@@ -163,15 +107,6 @@ def _inner(u, v, keepdim: bool = False, dim: int = -1):
         return torch.cat((-uv.narrow(dim, 0, 1), uv.narrow(dim, 1, d)), dim=dim).sum(
             dim=dim, keepdim=True
         )
-        
-def arcosh(x: torch.Tensor):
-    dtype = x.dtype
-    x = torch.max(x, torch.tensor([1])) # TODO: evaluate if change is necessary
-    z = torch.sqrt(torch.clamp_min(x.double().pow(2) - 1.0, 1e-15)) # clamp_min is equivalent to max
-    temp = torch.log(x + z).to(dtype)
-    return temp
-
-###### end of not my code ######
 
 def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j

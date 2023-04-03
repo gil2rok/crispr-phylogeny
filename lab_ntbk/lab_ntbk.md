@@ -1,48 +1,84 @@
+# April 3rd, 2023
+(03/04/2023)
+
+## To-Do :brain: :
+- :rotating_light: reorganize helper/utility functions and add docstrings to them
+- Combine Wilson hyperboloid definition of $<x,x> = - \rho^2$ with `geoopt` hyperboloid definition of $<x,x> = - \rho$.
+- Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
+- Add feature to `geoopt` to maximize optimizers instead of just minimizing them
+  - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
+- Compare original dist matrix with estimated distance matrix in a scale-invariant way. I am currently taking the difference between them but this is bad!
+
+## Done :white_check_mark: :
+
+## Notes :pencil: :
+- :star: How to evaluate results?
+  1. Can **compare the true phylogenetic tree with an estimated phylogenetic tree** (created from the distance between optimized hyperbolic embeddings with nearest neighbor joining / UPGMA). However, the process of creating the estimated phylogenetic tree is not 100% accurate
+  2. Can **compare the original distance matrix** (created with ancestry-aware Hamming distance of character matrix entries) **to estimated distance matrix** (created from the distance between optimized hyperbolic embeddings). However, created the original distance matrix is not 100% accurate b/c ancestry-aware Hamming distance compresses much information; the estimated distance matrix is completely accurate with respect to the optimized hyperbolic embeddings.
+
+
 # April 2nd, 2023
 (02/04/2023)
 
-## To-Do:
-- Investigate why Riemannian SGD on datapoint $x$ has $<x,x> = -2$ when $- \rho^2 = -4$. As per the definition of hyperbolic space, $<x,x> = - \rho^2$ which is not the case here. Perhaps this is a simple error of missing a square somewhere? This pattenr holds for all values of $\rho$ such that $-<x,x>^2 = - \rho^2$
+## To-Do :brain: :
+- Combine Wilson hyperboloid definition of $<x,x> = - \rho^2$ with `geoopt` hyperboloid definition of $<x,x> = - \rho$.
 - Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent matrix exponentiation operation $P = \textrm{expm}(Q)$
 
-## Done:
+## Done :white_check_mark: :
 - Posted issue on `geoopt` Github page asking where they square the gradient when implementing Riemannian Adam on lines 92-94 of `radam.py`.
+- Created `geoopt` pull request to properly validate input to `arcosh()` function. The mathematical function for arc hyperbolic cosine is only valid on the domain $[1, \infty)$. Before, they incorrectly clamped their input $x$ and now I fixed it.
+- Switched :arrows_counterclockwise: from Riemmannian Adam to Riemannian SGD b/c of possible error in Riemmanian Adam implementation. Also set `stablize` flag to ensure datapoint is on the hyperboloid.
 
-$        \Pi_{\mathbb{R}^{d+1} \rightarrow \mathbb{H}^{d, 1}}(\mathbf{x}):=\left(\sqrt{k+\left\|\mathbf{x}_{1: d}\right\|_{2}^{2}}, \mathbf{x}_{1: d}\right)$
+## Notes :pencil: :
+- Discovered that Wilson defines hyperboloid with $<x, x> = - \rho^2$ but `geoopt` defines hyperboloid with $<x,x> = - \rho$. This caused assertion statements to fail.
+- Found how/where `geoopt` implements the $4$ steps of Riemmanian optimization as per my notes on March 30th, 2023. 
+  - Gradient $h := \nabla_\theta \mathcal{L}(\theta^t) = g^{-1}_{\theta^t} \frac{\partial \mathcal{L}(\theta^t)} {\partial \theta}$ uses `PyTorch`-computed derivatives $\frac{\partial \mathcal{L}(\theta^t)} {\partial \theta}$, and multiplies by the inverse metric tensor $g_{\theta^t}^{-1}$ in 1st line of `_egradtorgrad()` in Lorentz manifold's `math.py` file.
 
-$ \pi((\mathbf{d}, r))=(\sqrt{k} \sinh (r/\sqrt{k}) \mathbf{d}, \cosh (r / \sqrt{k}))$
+    <details>
+      <summary> Mathematical details </summary>
 
-\
-\
-\
-\
-\
+      The inverse metric tensor is defined for the sign convention $(-, +, \ldots, +)$ as
+    
+      $g_{\theta^t}^{-1} = \begin{bmatrix} -1 &  &  & & \\ & 1 & & & \\ & & \ddots & & \\ & & & 1 & \\ & & & & 1 \end{bmatrix}$
 
-This pull requests fixes how the `_project()` function projects a vector onto the hyperboloid surface in the Lorentz manifold `math.py` file.
+      Thus multiplication by $g_{\theta^t}^{-1}$ is trivially implemented by multiplying the first element of $\theta$ by $-1$ (in my notation, I take the last dimension of $X$ and multiply its first element by $-1$).
+    </details>
+
+  - Project gradient $h$ onto tangent space $\mathcal{T}_{\theta^t}\mathcal{M}$ to get vector $v$ in 2nd line of `_egradtorgrad()` in Lorentz manifold's `math.py` file.
+
+  - Perform optimizer update trivially with $- \eta v$ for Riemmanian SGD in `rsgd.py` file: `manifold.retr(point, -learning_rate * grad)`
+
+  - Project back onto manifold via exponential map in `rsgd.py` file: `manifold.retr(point, -learning_rate * grad)`. Note that in `__init__.py` file of Lorentz manifold, this retraction method is set to the exponential map.
+
+
+## :rotating_light: :rotating_light: Pull Request:
+
+### Intro
+
+This pull requests attempts to fix two (possible) issues in the `math.py` file for the Lorentz manifold. I first fix how the `_project()` function projects a vector onto the hyperboloid surface. I also fix how `arcosh()` function clamps the input x into a valid domain.
 
 I belive there is a mistake in the math behind the projection, though it is certainly possible I am mistaken. This is also my first pull request so please let me know if I'm missing something or if I can improve it!
 
 ### Background / Motivation
 
-Recall that all points $\mathbf{x}, \mathbf{y} \in \mathcal{H}$ on hyperboloid with curvature $k$ must satisfy $<\mathbf{x},\mathbf{x}> = - k^2$, where the Minkowski dot product is defined as $<\mathbf{x},\mathbf{y}> = - x_0 y_0 + \sum_{i=1}^d x_i y_i$.
+Consider an arbitrary point $\mathbf{x} \in \mathcal{H}$ on hyperboloid with curvature $k$ with dimensionality $d+1$ such that its elements are $x_0, x_1 \ldots x_d$. This point must satisfy $<\mathbf{x},\mathbf{x}> = - k^2$, where the Minkowski dot product is defined as $<\mathbf{x},\mathbf{y}> = - x_0 y_0 + \Sigma_{i=1}^d x_i y_i$.
 
-Previously, the `_project()` function implemented the following equation: $\Pi_{\mathbb{R}^{d+1} \rightarrow \mathbb{H}^{d, 1}}(\mathbf{x}):= \left(\sqrt{k+\left\|\mathbf{x}_{1: d}\right\|_{2}^{2}}, \mathbf{x}_{1: d}\right)$.
+Previously, the `_project()` function implemented the following equation:  $\Pi_{R^{d+1} \rightarrow \mathbb{H}^{d, 1}} (\mathbf{x}):= \left( \sqrt{k + \left| \mathbf{x}_{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right)$.
 
-However, when we apply the condition above, we see this projection is incorrect. Let $x$ be a data point and $z = \Pi(x)$ be the projection:
+However, when we apply the condition above, we see this projection is incorrect. Let $x$ be a data point and $z = \Pi(x)$ be the projection such that:
 
-$ <\mathbf{z},\mathbf{z}> = - \left(\sqrt{k+\left\|\mathbf{z}_{1: d}\right\|_{2}^{2}} \right) \left(\sqrt{k+\left\|\mathbf{z}_{1: d}\right\|_{2}^{2}} \right) + \sum_{i=1}^d x_i y_i = - k - |\mathbf{z}_{1: d}\|_{2}^{2} + |\mathbf{z}_{1: d}\|_{2}^{2} = - k \neq - k^2$
+$<\mathbf{z}, \mathbf{z}> = \left< \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right), \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right) \right>$
+
+Now simply this expression:
+
+$<\mathbf{z}, \mathbf{z}> = - \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}\right) \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2} \right)  + \left( \Sigma _{i=1}^d x_i \right) \left( \Sigma _{i=1}^d x_i \right) = - k - \left| \mathbf{x} _{1:d} \right|_2^2 +  \left| \mathbf{x} _{1:d} \right|_2^2 = -k \neq - k^2$
 
 ### Details of the Pull Request
-To fix the above issue, I made this pull request that trivially redefines the projection by replacing $k$ with $k^2$: $\Pi_{\mathbb{R}^{d+1} \rightarrow \mathbb{H}^{d, 1}}(\mathbf{x}):= \left(\sqrt{k^2+\left\|\mathbf{x}_{1: d}\right\|_{2}^{2}}, \mathbf{x}_{1: d}\right)$. This ensures that $<\mathbf{z},\mathbf{z}> = - k^2$.
+To fix the above issue, I made this pull request that trivially redefines the projection by replacing $k$ with $k^2$:  $\Pi_{R^{d+1} \rightarrow \mathbb{H}^{d, 1}} (\mathbf{x}):= \left( \sqrt{k^2 + \left| \mathbf{x}_{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right)$. This ensures that $<\mathbf{z},\mathbf{z}> = - k^2$.
 
 I specifically made this change in the `_project()` function and in the doc string of the `project()` function. A similar change may need to be made for the polar coordinates projection `_project_polar()`, though I have not looked into the math.
-
-
-However, when we apply the condition above, we see this projection is incorrect. Let $x$ be a data point and $z = \Pi(x)$ be the projection:
-
-$<\mathbf{z}, \mathbf{z}> = \left< \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right), \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}, \mathbf{x} _{1:d} \right) \right> = - \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2}\right) \left( \sqrt{k + \left| \mathbf{x} _{1:d} \right|_2^2} \right)  + \left( \Sigma _{i=1}^d x_i \right) \left( \Sigma _{i=1}^d x_i \right) = - k - \left| \mathbf{x} _{1:d} \right|_2^2 +  \left| \mathbf{x} _{1:d} \right|_2^2 = -k \neq - k^2$
-
-## Notes:
 
 # March 30th, 2023
 (03/30/2023)
