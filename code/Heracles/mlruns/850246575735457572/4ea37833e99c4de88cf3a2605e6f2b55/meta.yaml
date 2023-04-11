@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/850246575735457572/4ea37833e99c4de88cf3a2605e6f2b55/artifacts
+end_time: 1681171731341
+entry_point_name: ''
+experiment_id: '850246575735457572'
+lifecycle_stage: active
+run_id: 4ea37833e99c4de88cf3a2605e6f2b55
+run_name: silent-conch-596
+run_uuid: 4ea37833e99c4de88cf3a2605e6f2b55
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681157305900
+status: 3
+tags: []
+user_id: gil2rok

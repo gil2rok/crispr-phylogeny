@@ -1,30 +1,11 @@
 import torch
 import geoopt
+from geoopt import ManifoldTensor, ManifoldParameter, Lorentz
 import matplotlib.pyplot as plt
 import numpy as np
 
 from util.hyperboloid_wilson import Hyperboloid
-from util.util import transition_matrix
-
-def swap(X):
-    d = X.shape[1]
-    idx0 = torch.tensor([d-1])
-    idx1 = torch.arange(1, d-1)
-    idx2 = torch.tensor([0])
-    
-    indices = torch.cat((idx0, idx1, idx2))
-    X = X.index_select(1, indices)
-    return X
-
-def check_wilson(X, rho):
-    hyperboloid = Hyperboloid(rho.detach().numpy(), X.shape[1]-1)
-    
-    for i in range(X.shape[0]):
-        assert(hyperboloid.contains(X[i,:].detach().numpy()))
-        
-def check_geoopt(X, rho):
-    for i in range(X.shape[0]):
-        assert(contains(X[i,:], rho))
+from util.util import transition_matrix, wilson_to_geoopt, contains
     
 class Logalike(torch.nn.Module):
     def __init__(self, 
@@ -48,19 +29,15 @@ class Logalike(torch.nn.Module):
         self.num_states = num_states # number of possible states
                 
         self.rho = rho # negative curvature
-        self.manifold = geoopt.Lorentz(self.rho) # hyperbolic manifold
-        
-        # check for valid emedding X
-        check_wilson(X, self.rho) # ensure X is in Wilson hyperboloid
-        X = swap(X)
-        check_geoopt(X, self.rho) # ensure X is in geoopt hyperboloid
-        
+        self.manifold = Lorentz(self.rho) # hyperbolic manifold
+                
         # taxa location in hyperbolic space, learnable parameter [num_cells x embedding_dim]
-        self.X = geoopt.ManifoldTensor(X, manifold=self.manifold)
-        self.X = geoopt.ManifoldParameter(self.X)
+        X = wilson_to_geoopt(X, self.rho) # Wilson to geoopt sign conversion
+        self.X = ManifoldTensor(X, manifold=self.manifold) 
+        self.X = ManifoldParameter(self.X)
     
     def forward(self, i):
-        assert(contains(self.X[i,:], self.rho ))  # ensure X is on hyperboloid   
+        assert(contains(self.X[i,:], self.rho))  # ensure x_i is on hyperboloid   
         
         total = 0
         for j in range(self.num_cells): # iterate over all cells
@@ -88,25 +65,6 @@ class Logalike(torch.nn.Module):
                     
                 total += torch.log(cur)
         return total
-
-def contains(v, rho, atol=1e-7):
-    mdp = _inner(v, v) # geoopt convention
-    mdp = mdp.double()
-    
-    assert(v[0] > 0) # geoopt convention
-    return torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or torch.allclose(mdp, - rho, atol=atol)
-
-def _inner(u, v, keepdim: bool = False, dim: int = -1):
-    d = u.size(dim) - 1
-    uv = u * v
-    if keepdim is False:
-        return -uv.narrow(dim, 0, 1).sum(dim=dim, keepdim=False) + uv.narrow(
-            dim, 1, d
-        ).sum(dim=dim, keepdim=False)
-    else:
-        return torch.cat((-uv.narrow(dim, 0, 1), uv.narrow(dim, 1, d)), dim=dim).sum(
-            dim=dim, keepdim=True
-        )
 
 def feasible_ancestors(s_i, s_j, num_states):
     """ generate feasible ancestors for states s_i, s_j
@@ -181,10 +139,6 @@ def map_indices(s_i, s_j, A, site, num_sites):
     else:
         s_j += num_sites - 1
         
-          
-    # s_i = site if s_i == 0 else s_i + num_sites
-    # s_j = site if s_j == 0 else s_j + num_sites
-    # A = [site if a == 0 else a + num_sites for a in A]
     A = [site if a == 0 else a + num_sites - 1 for a in A] #TODO: check if correct
     
     return s_i, s_j, A

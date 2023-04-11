@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/850246575735457572/708e4d0f09fc4dcebad8cc3d257a931a/artifacts
+end_time: 1681153154761
+entry_point_name: ''
+experiment_id: '850246575735457572'
+lifecycle_stage: active
+run_id: 708e4d0f09fc4dcebad8cc3d257a931a
+run_name: whimsical-donkey-295
+run_uuid: 708e4d0f09fc4dcebad8cc3d257a931a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681152640057
+status: 3
+tags: []
+user_id: gil2rok

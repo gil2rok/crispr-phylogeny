@@ -1,5 +1,8 @@
-# April 3rd, 2023
-(03/04/2023)
+# April 10th, 2023
+(09/04/2023)
+
+## Meeting :handshake: :
+- 
 
 ## To-Do :brain: :
 - :rotating_light: reorganize helper/utility functions and add docstrings to them
@@ -8,7 +11,28 @@
 - Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
 - Add feature to `geoopt` to maximize optimizers instead of just minimizing them
   - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
-- Compare original dist matrix with estimated distance matrix in a scale-invariant way. I am currently taking the difference between them but this is bad!
+- :rotating_light: :rotating_light: Evaluate model performance via (1) distance matrix comparison, (2) triplets correct (tree comparison), and (3) robinson-fould's distance (tree comparison).
+
+## Done :white_check_mark: :
+
+## Notes :pencil: :
+
+# April 3rd, 2023
+(03/04/2023)
+
+## Meeting :handshake: :
+- Try to extract true tree distances from `Caissopia`. If not, create a `networkx` object.
+- Mostly focus on comparing distance matricies and not trees. Also compare triplets correct.
+- Can also construct trees with either `Weighbor` or `neighborjoining` or `upgma` and then compare on Robinson-Fould's distance. Do so using `Dendropy` / `Cassiopia`. Weighbor can be found [here](bio.tools/weighbor).
+
+## To-Do :brain: :
+- :rotating_light: reorganize helper/utility functions and add docstrings to them
+- Combine Wilson hyperboloid definition of $<x,x> = - \rho^2$ with `geoopt` hyperboloid definition of $<x,x> = - \rho$.
+- Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
+- Add feature to `geoopt` to maximize optimizers instead of just minimizing them
+  - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
+- :star: Evaluate model performance via (1) distance matrix comparison or (2) tree comparison. Abstract details discussed in notes.
 
 ## Done :white_check_mark: :
 
@@ -16,6 +40,9 @@
 - :star: How to evaluate results?
   1. Can **compare the true phylogenetic tree with an estimated phylogenetic tree** (created from the distance between optimized hyperbolic embeddings with nearest neighbor joining / UPGMA). However, the process of creating the estimated phylogenetic tree is not 100% accurate
   2. Can **compare the original distance matrix** (created with ancestry-aware Hamming distance of character matrix entries) **to estimated distance matrix** (created from the distance between optimized hyperbolic embeddings). However, created the original distance matrix is not 100% accurate b/c ancestry-aware Hamming distance compresses much information; the estimated distance matrix is completely accurate with respect to the optimized hyperbolic embeddings.
+      - In current implementation, my original distance matrix is computed with the ancestry-aware Hamming distance between casettes of leaf nodes. **This is incorrect** b/c much information is lost using the ancestry-aware Hamming distance function. Instead, I should examine the pairwise distance leaf nodes in the true graph.
+      - When I compare my estimated distance matrix (from optimized hyperbolic embeddings) to the true distance matrix (specified above) I need to do so in a scale invariant way. This can be done by normalizing (perhaps across rows or columns?) or by element-wise division.
+- Found that **Cassioepia computes likelihood** for continous time Markov chain [here](https://cassiopeia-lineage.readthedocs.io/en/latest/api/reference/cassiopeia.tl.calculate_likelihood_continuous.html).
 
 
 # April 2nd, 2023

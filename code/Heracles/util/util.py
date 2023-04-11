@@ -1,5 +1,12 @@
 import torch
+import os
 import numpy as np
+
+from geoopt import Lorentz
+from geoopt.manifolds.lorentz.math import inner
+from scipy.spatial.distance import pdist, squareform
+from scipy.linalg import norm
+
 
 from dendropy import PhylogeneticDistanceMatrix as phylo_dist
 from util.hyperboloid_wilson import Hyperboloid
@@ -62,13 +69,18 @@ def char_matrix_to_dist_matrix(char_matrix):
 def estimate_tree(dist_matrix, method):
     # convert numpy distance matrix to dendropy distance matrix
     file = dist_matrix.detach().numpy().astype(int)
-    np.savetxt('dist_matrix.csv', file, delimiter = ',') # save dist matrix
+    fname = 'dist_matrix.csv'
+    np.savetxt(fname, file, delimiter = ',') # save dist matrix as csv file
     dist_matrix = phylo_dist.from_csv('dist_matrix.csv', 
                            is_first_row_column_names=False,
                            is_first_column_row_names=False
                            )
-    
-    # estimate phylogenetic tree from distance matrix
+    try: # try to delete csv file
+        os.remove(fname)
+    except OSError as e: # raise error
+        print("Error: {} - {}!".format(e.filename, e.strerror))
+        
+    # estimate phylogenetic tree from distance matrix    
     if method == 'upgma':
         tree = dist_matrix.upgma_tree()
     elif method == 'neighbor-joining':
@@ -79,6 +91,17 @@ def estimate_tree(dist_matrix, method):
     return tree
 
 def embed_tree(tree, rho, num_cells, local_dim=2):
+    """ embed tree into hyperbolic space with Sakar's construction
+
+    Args:
+        tree (dendropy tree): phylogenetic tree
+        rho ([1x1]): negative curbature of hyperbolic space
+        num_cells ([1x1]): number of cells
+        local_dim (int, optional): dimension of hyperbolic surface. Defaults to 2.
+
+    Returns:
+        [num_cells x local_dim + 1]: embedding of tree in hyperbolic space
+    """
     # embed tree into hyperboloid model of hyperbolic space
     # TODO: hyperboloid_wilson.py generates random samples -- add seed
     
@@ -94,3 +117,71 @@ def embed_tree(tree, rho, num_cells, local_dim=2):
             counter += 1            
             assert(hyperboloid.contains(val))
     return X.double()
+    
+def wilson_to_geoopt(X, rho):
+    """ convert hyperbolic embeddings from Wilson to geoopt convention
+
+    The minkowski dot product <x,y> associated with hyperbolic space can be
+    represented as:
+        <x,y> = - (x_0 * y_0) + \Sigma_{i=1}^d x_i * y_i  (Wilson)
+        <x,y> = \Sigma_{i=0}^{d-1} x_i y_i - (x_d * y_d)  (geoopt)
+    The first convention is used in the Wilson paper while the second is used
+    in the geoopt package.
+    
+    Conversion between them is necessary because I use Wilson's code to 
+    isometrically embedd a tree into hyperbolic space with Sakar's construction
+    and I use geoopt to carry out my hyperbolic optimization routine b/c it
+    extends PyTorch's auto-differentiation capabilities.
+    
+    Args:
+        X ([num_cells x embedding_dim]): hyperbolic embeddings in Wilson convention
+
+    Returns:
+        [num_cells x embedding_dim]: hyperbolic embeddings in geoopt convention
+    """
+    
+    check_wilson(X, rho)  # ensure X is in Wilson hyperboloid
+    
+    # convert Wilson convention to geoopt convention
+    d = X.shape[1]
+    idx0 = torch.tensor([d-1])
+    idx1 = torch.arange(1, d-1)
+    idx2 = torch.tensor([0])
+    
+    indices = torch.cat((idx0, idx1, idx2))
+    X = X.index_select(1, indices)
+    
+    check_geoopt(X, rho) # ensure X is in geoopt hyperboloid
+    return X
+
+def check_wilson(X, rho):
+    hyperboloid = Hyperboloid(rho.detach().numpy(), X.shape[1]-1)
+    
+    for i in range(X.shape[0]):
+        assert(hyperboloid.contains(X[i,:].detach().numpy()))
+        
+def check_geoopt(X, rho):
+    for i in range(X.shape[0]):
+        assert(contains(X[i,:], rho))
+        
+def contains(v, rho, atol=1e-7):
+    mdp = inner(v, v) # geoopt convention
+    mdp = mdp.double()
+        
+    assert(v[0] > 0) # geoopt convention
+    return (torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or 
+            torch.allclose(mdp, - rho, atol=atol))
+    
+def manifold_dist(u, v, rho):
+    u = torch.tensor(u)
+    v = torch.tensor(v)
+    
+    manifold = Lorentz(k=rho)
+    dist = manifold.dist(u, v)
+    return dist.detach().numpy()
+
+def compute_error(X, dist_matrix, rho):
+    est_dist = squareform(pdist(X.detach().numpy(), metric=manifold_dist, rho=rho))
+    diff = np.abs(est_dist - dist_matrix.detach().numpy())
+    error = norm(diff, ord='fro')
+    return error
