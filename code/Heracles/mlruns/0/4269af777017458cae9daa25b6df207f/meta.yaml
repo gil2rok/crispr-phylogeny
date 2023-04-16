@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/4269af777017458cae9daa25b6df207f/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 4269af777017458cae9daa25b6df207f
+run_name: rumbling-kit-921
+run_uuid: 4269af777017458cae9daa25b6df207f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681686714074
+status: 1
+tags: []
+user_id: gil2rok

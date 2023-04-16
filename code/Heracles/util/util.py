@@ -172,7 +172,7 @@ def contains(v, rho, atol=1e-7):
     assert(v[0] > 0) # geoopt convention
     return (torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or 
             torch.allclose(mdp, - rho, atol=atol))
-    
+   
 def manifold_dist(u, v, rho):
     u = torch.tensor(u)
     v = torch.tensor(v)
@@ -180,9 +180,3 @@ def manifold_dist(u, v, rho):
     manifold = Lorentz(k=rho)
     dist = manifold.dist(u, v)
     return dist.detach().numpy()
-
-def compute_error(X, dist_matrix, rho):
-    est_dist = squareform(pdist(X.detach().numpy(), metric=manifold_dist, rho=rho))
-    diff = np.abs(est_dist - dist_matrix.detach().numpy())
-    error = norm(diff, ord='fro')
-    return error
