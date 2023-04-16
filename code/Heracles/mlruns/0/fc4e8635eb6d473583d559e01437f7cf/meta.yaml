@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/fc4e8635eb6d473583d559e01437f7cf/artifacts
+end_time: 1681658506065
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: fc4e8635eb6d473583d559e01437f7cf
+run_name: dashing-ant-208
+run_uuid: fc4e8635eb6d473583d559e01437f7cf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681506049997
+status: 3
+tags: []
+user_id: gil2rok

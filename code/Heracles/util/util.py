@@ -1,6 +1,7 @@
 import torch
 import os
 import numpy as np
+import subprocess
 
 from geoopt import Lorentz
 from geoopt.manifolds.lorentz.math import inner
@@ -140,7 +141,7 @@ def wilson_to_geoopt(X, rho):
         [num_cells x embedding_dim]: hyperbolic embeddings in geoopt convention
     """
     
-    check_wilson(X, rho)  # ensure X is in Wilson hyperboloid
+    check_wilson(X, torch.sqrt(rho))  # ensure X is in Wilson hyperboloid
     
     # convert Wilson convention to geoopt convention
     d = X.shape[1]

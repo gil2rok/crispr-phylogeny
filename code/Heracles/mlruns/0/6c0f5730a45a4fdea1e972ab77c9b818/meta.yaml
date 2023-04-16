@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/6c0f5730a45a4fdea1e972ab77c9b818/artifacts
+end_time: 1681661412927
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6c0f5730a45a4fdea1e972ab77c9b818
+run_name: fun-cow-260
+run_uuid: 6c0f5730a45a4fdea1e972ab77c9b818
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681658510388
+status: 3
+tags: []
+user_id: gil2rok

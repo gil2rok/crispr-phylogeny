@@ -18,7 +18,7 @@ class Logalike(torch.nn.Module):
 
         super().__init__()
         
-        self.character_matrix = character_matrix # sequence data [N x N]
+        self.character_matrix = character_matrix.astype(int) # sequence data [N x N]
         
         # site-specific parameters
         self.priors = priors # TODO: not being used at the moment

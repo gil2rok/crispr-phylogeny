@@ -1,21 +1,41 @@
+# April 14th, 2023
+(14/04/2023)
+
+## To-Do :brain: :
+- Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
+- Add feature to `geoopt` to maximize optimizers instead of just minimizing them
+  - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
+- Evaluate model performance via (1) distance matrix correlation, (2) triplets correct (tree comparison), and (3) robinson-fould's distance (tree comparison).
+- Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc.
+  - To create these estimated trees, using Cassieopia and also implement a function that returns the distance between two different casettes s1, s2. In hyperbolic setting do so by returning the geodesic between our learned embeddings
+
 # April 10th, 2023
 (09/04/2023)
 
 ## Meeting :handshake: :
-- 
+- Told Sitara how I set up `mlflow` and began implementing the distance matrix comparison
+- Sitara recommended I examine correlation between the true distance matrix and my estimated matrix instead of subtraction, division, etc.
+  - Note that the method I need to compare the `true_dist` matrix and the `est_dist` matrix needs to be scale invariant!
+- Sitara then walked me through her SEACells paper and gave me some general advice. Chilled with Phillip too.
 
 ## To-Do :brain: :
 - :rotating_light: reorganize helper/utility functions and add docstrings to them
-- Combine Wilson hyperboloid definition of $<x,x> = - \rho^2$ with `geoopt` hyperboloid definition of $<x,x> = - \rho$.
 - Implement Felsteinstein's algorithm to estimate $\pi$ accurately
 - Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
 - Add feature to `geoopt` to maximize optimizers instead of just minimizing them
   - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
 - :rotating_light: :rotating_light: Evaluate model performance via (1) distance matrix comparison, (2) triplets correct (tree comparison), and (3) robinson-fould's distance (tree comparison).
+  - Use hyperbolic embeddings `X` to generate `est_dist` matrix which is fed into `Weighbor` to reconstruct a phylogenetic tree `est_tree`. Finally, I can use this `est_tree` to compute triplets_correct and Robinson-Fould's metrics.
 
 ## Done :white_check_mark: :
+- Evaluate model performance with the following metrics: (triplets-correct + Robinson-Fould still need to be implemented)
+  - **distance matrix comparison**: compute the correlation between `true_dist` matrix to the `est_dist` matrix. The `true_dist` matrix is computed by taking the `true_tree` and computing the pairwise distances between all leaves. The `est_dist` matrix is computed by taking the hyperbolic embeddings `l.X`, adding in duplicates that I removed, and computing their (hyperbolic) pairwise geodesics. I then compute the correlation between these distance matricies. 
+- Combine Wilson hyperboloid definition of $<x,x> = - \rho^2$ with `geoopt` hyperboloid definition of $<x,x> = - \rho$. See notes below :point_down: for more details.
 
 ## Notes :pencil: :
+- :rotating_light: When evaluating my model performance, I am using a variety of methods to compare the `true_tree` (in some form) to my learned hyperoblic embeddings `X` (which may be used to reconstruct a tree, dist matrix, etc). However, when creating the hyperbolic embeddings `X`, I remove duplicates. Thus the number of leaf cells in the `true_tree` is higher than in my hyperbolic embeddings `X`. To remedy this, I keep track of the number of duplicates I remove. Then, I repeat the specific embedding `X[i,:]` the correct number of times. This ensures that the `true_tree` and the hyperbolic embeddings `X` thus have the same number of cells being compared!
+- `wilson` and `geoopt` have different conventions for defining the hyperbolid in terms of the (negative) curvature. In `wilson`, we define $<x,x> = - \gamma^2$ while in `geoopt` we define $<x,x> = - \rho$. Thus $\gamma^2 = \rho$. If we want to generally specify curvatre in terms of `geoopt` (b/c that's primarily what we are working with), then any time we use `wilson`, we must write $\gamma = \sqrt{\rho}$.
 
 # April 3rd, 2023
 (03/04/2023)

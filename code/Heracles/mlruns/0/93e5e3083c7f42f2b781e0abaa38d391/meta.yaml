@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/93e5e3083c7f42f2b781e0abaa38d391/artifacts
+end_time: 1681506046063
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 93e5e3083c7f42f2b781e0abaa38d391
+run_name: adaptable-rat-869
+run_uuid: 93e5e3083c7f42f2b781e0abaa38d391
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681502205812
+status: 3
+tags: []
+user_id: gil2rok
