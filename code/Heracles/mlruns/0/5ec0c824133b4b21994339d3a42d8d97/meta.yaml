@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/5ec0c824133b4b21994339d3a42d8d97/artifacts
+end_time: 1681696469815
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5ec0c824133b4b21994339d3a42d8d97
+run_name: stylish-snake-591
+run_uuid: 5ec0c824133b4b21994339d3a42d8d97
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681696469802
+status: 4
+tags: []
+user_id: gil2rok

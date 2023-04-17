@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/efac4c1b2ec64107816d9a4485a5e2c8/artifacts
+end_time: 1681696481431
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: efac4c1b2ec64107816d9a4485a5e2c8
+run_name: luxuriant-sponge-643
+run_uuid: efac4c1b2ec64107816d9a4485a5e2c8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681696474260
+status: 3
+tags: []
+user_id: gil2rok

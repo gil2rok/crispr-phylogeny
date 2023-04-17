@@ -173,10 +173,25 @@ def contains(v, rho, atol=1e-7):
     return (torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or 
             torch.allclose(mdp, - rho, atol=atol))
    
-def manifold_dist(u, v, rho):
-    u = torch.tensor(u)
-    v = torch.tensor(v)
+def generate_Q(num_sites, num_states):
     
-    manifold = Lorentz(k=rho)
-    dist = manifold.dist(u, v)
-    return dist.detach().numpy()
+    deletion_rate = 9e-4 # global deletion rate 
+    mutation_rate = [0.1] * num_sites # site-specific mutation rate
+    indel_distribution = [1/num_states] * num_states
+    
+    Q = torch.zeros(num_sites + num_states + 1, num_sites + num_states + 1)
+
+    for i in range(num_sites + num_states): # fill in diagonals
+        if i < num_sites:
+            Q[i,i] = - (mutation_rate[i] + deletion_rate)
+        else:
+            Q[i,i] = - deletion_rate
+            
+    for i in range(num_sites): # fill in upper right
+        for j in range(num_states):
+            Q[i, num_sites + j] = mutation_rate[i] * indel_distribution[j]
+            
+    for i in range(num_sites + num_states):
+        Q[i, -1] = deletion_rate
+        
+    return Q

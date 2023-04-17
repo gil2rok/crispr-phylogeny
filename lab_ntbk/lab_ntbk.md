@@ -1,3 +1,26 @@
+# April 16th, 2023
+(16/04/2023)
+
+## To-Do :brain: :
+- Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
+- Add feature to `geoopt` to maximize optimizers instead of just minimizing them
+  - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
+- Evaluate model performance via (1) :white_check_mark: distance matrix correlation, (2) :white_check_mark: triplets correct (tree comparison), and (3) :x: robinson-fould's distance (tree comparison).
+  - Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc. This estimated tree is necessary for Robinson Fould metric.
+- :rotating_light: I have a character matrix `cm` and turn it into a pairwise distance matrix `pdm` with ancestry-aware hamming distance. However, why do I estimate a tree from `pdm` and *only then* embedd my points in hyperbolic space? **Does it make more sense to embedd my pairwise distance matrix `pdm` into hyperbolic space directly?**
+
+## Done :white_check_mark: :
+  - Clean up code, incorprating `MLflow` better and watching video tutorials on it. I also made a new file for my metrics, `metrics2.py` because the first is very messy -- it will need to be deleted.
+  - Have fully implemented 2 out of 3 ways of measuring performance of my model. Correlation of distance matricies and triplets_correct have been implemented. Robinson-Fould's has not yet been *cleanly* implemented -- to do so I need to write some `util` functions that create a tree from a distance matrix in a large variety of ways e.g. UPGMA, NJ, Weighbor, BioNJ, etc.
+
+## Notes :pencil: :
+- Finally, I can start evaluating my models, at least somewhat. Frustratingly, although the loss is monotonically decreasing (or at least appears to be monotonically decreasing), my `dist_correlation` and `triplets_correct` don't perform as well. Sometimes these metrics decrease instead of increase. Sometimes when they do increase, they do not increase that much over the initial baseline -- and this increase does not appear to be monotonic.
+- I still get `assert` errors when initally embedding my points on the hyperboloid -- this gets worse in higher embedding dimensions.
+- Beginning to think about how I want to compare my model results to the `Cassiopeia` package. Maybe ask author for scripts + setitngs used to evaluate their models? I would *love* to get my hands on the code used to generate Figure 1 in the `Cassiopeia` paper -- I would use this code to similarly benchmark my model!
+- :star: :star: The person who made `Cassiopeia` is at Weitzman. Maybe work with him? 
+
+
 # April 14th, 2023
 (14/04/2023)
 
@@ -9,6 +32,9 @@
 - Evaluate model performance via (1) distance matrix correlation, (2) triplets correct (tree comparison), and (3) robinson-fould's distance (tree comparison).
 - Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc.
   - To create these estimated trees, using Cassieopia and also implement a function that returns the distance between two different casettes s1, s2. In hyperbolic setting do so by returning the geodesic between our learned embeddings
+
+## Done :white_check_mark: :
+  - Began working on implementing the other tree comparison methods e.g. Robinson-Foulds and Triplets correct
 
 # April 10th, 2023
 (09/04/2023)

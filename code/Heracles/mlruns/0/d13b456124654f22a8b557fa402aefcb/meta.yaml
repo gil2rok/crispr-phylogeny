@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/d13b456124654f22a8b557fa402aefcb/artifacts
+end_time: 1681691813349
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d13b456124654f22a8b557fa402aefcb
+run_name: melodic-hog-196
+run_uuid: d13b456124654f22a8b557fa402aefcb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681691805341
+status: 3
+tags: []
+user_id: gil2rok

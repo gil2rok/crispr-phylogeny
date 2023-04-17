@@ -3,6 +3,8 @@ from geoopt import Lorentz
 from collections import Counter
 from itertools import combinations
 import torch
+from scipy.stats import pearsonr
+from scipy.special import comb
 
 def embeddings_to_dist(X, rho):
     """ estimated pairwise distances between cell embeddings (along hyperboloic geodescics)
@@ -42,7 +44,9 @@ def tree_to_dist(true_tree):
     
     # iterate over all pairs of cells
     for i, leaf in enumerate(true_tree.leaves):
-        true_dist[i, :] = list( # tree distances from leaf to all other leaves
+        
+        # tree distances from leaf to all other leaves
+        true_dist[i, :] = list(
             true_tree.get_distances(leaf, leaves_only=True).values()
         )
     
@@ -79,7 +83,7 @@ def triplets_correct(true_tree, X, rho):
     
     Args:
         true_tree (Cassieopia tree): true phylogenetic tree
-        X (np [num_cells x embedding_dim]): hyperbolic embeddings of cells
+        X (np [num_cells x embedding_dim]): hyperbolic cell embeddings
         rho (float): negative curvate of Lorentz manifold
 
     Returns:
@@ -92,7 +96,7 @@ def triplets_correct(true_tree, X, rho):
     true_dist = tree_to_dist(true_tree)
     
     num_cells = X.shape[0]
-    count = 0
+    correct = 0 # num triplets correct
     
     # iterate over all triplets of cells
     for i, j, k in combinations(range(num_cells), 3):
@@ -106,9 +110,30 @@ def triplets_correct(true_tree, X, rho):
         topology3 = (td2 < td3) and (ed2 < ed3)
         topology4 = (td1 == td2 == td3) and (ed1 == ed2 == ed3)
         
-        if not (topology1 or topology2 or topology3 or topology4):
-            count += 1
-    return count
+        if  topology1 or topology2 or topology3 or topology4:
+            correct += 1
+    return correct / comb(num_cells, 3) # normalize by number of triplets
+
+def dist_correlation(true_tree, X, rho):
+    """ compute correlation btwn true and estimated pairwise distances
+
+    Args:
+        true_tree (Cassiopiea tree): true phylogenetic tree
+        X (tensor [num_cells x num_sites]): hyperbolic cell embeddings
+        rho (float): negative curvate of Lorentz manifold
+
+    Returns:
+        float: correlation btwn true and estimated pairwise distances
+    """
+    
+    # preprocess
+    X = repeat_embeddings(X, true_tree.character_matrix.to_numpy())    
+    est_dist = embeddings_to_dist(X, rho)
+    true_dist = tree_to_dist(true_tree)
+    
+    # correlation btwn true and estimated distances
+    return pearsonr(est_dist.flatten(), true_dist.flatten()).statistic
+    
                     
                 
    
