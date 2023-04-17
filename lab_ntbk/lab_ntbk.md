@@ -9,6 +9,9 @@
 - Evaluate model performance via (1) :white_check_mark: distance matrix correlation, (2) :white_check_mark: triplets correct (tree comparison), and (3) :x: robinson-fould's distance (tree comparison).
   - Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc. This estimated tree is necessary for Robinson Fould metric.
 - :rotating_light: I have a character matrix `cm` and turn it into a pairwise distance matrix `pdm` with ancestry-aware hamming distance. However, why do I estimate a tree from `pdm` and *only then* embedd my points in hyperbolic space? **Does it make more sense to embedd my pairwise distance matrix `pdm` into hyperbolic space directly?**
+- :rotating_light: **Should I add blank cell casette `[0 ... 0]` for root node?** I could add an auxilarly loss function that ensures that this root node is far away (perhaps equi-distantly far away) from all other leaf nodes.
+  - This takes advantage of CRISPR specific modelling as we have acess to leaf cells but *also* know that there exists a cell with a blank, empty casette.
+- Install `gurobi` optimization software -- but need to request an appropriate (academic) license :cry:
 
 ## Done :white_check_mark: :
   - Clean up code, incorprating `MLflow` better and watching video tutorials on it. I also made a new file for my metrics, `metrics2.py` because the first is very messy -- it will need to be deleted.
@@ -19,7 +22,6 @@
 - I still get `assert` errors when initally embedding my points on the hyperboloid -- this gets worse in higher embedding dimensions.
 - Beginning to think about how I want to compare my model results to the `Cassiopeia` package. Maybe ask author for scripts + setitngs used to evaluate their models? I would *love* to get my hands on the code used to generate Figure 1 in the `Cassiopeia` paper -- I would use this code to similarly benchmark my model!
 - :star: :star: The person who made `Cassiopeia` is at Weitzman. Maybe work with him? 
-
 
 # April 14th, 2023
 (14/04/2023)
