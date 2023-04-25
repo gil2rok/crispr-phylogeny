@@ -1,0 +1,12 @@
+[2023-04-25 15:23:31,524]    INFO [ILPSolver] Solving tree with the following parameters.
+[2023-04-25 15:23:31,525]    INFO [ILPSolver] Convergence time limit: 12600
+[2023-04-25 15:23:31,526]    INFO [ILPSolver] Convergence iteration limit: 0
+[2023-04-25 15:23:31,526]    INFO [ILPSolver] Max potential graph layer size: 10000
+[2023-04-25 15:23:31,527]    INFO [ILPSolver] Max potential graph lca distance: None
+[2023-04-25 15:23:31,527]    INFO [ILPSolver] MIP gap: 0.01
+[2023-04-25 15:23:31,528]    INFO [ILPSolver] Phylogenetic root: (0, 3, 0, 0, 0)
+[2023-04-25 15:23:31,530]    INFO [ILPSolver] (Process: 77d8e698ed4584d6a2b61608b34a10bd) Estimating a potential graph with a maximum layer size of 10000 and a maximum LCA distance of 3.
+[2023-04-25 15:23:31,531]    INFO [ILPSolver] (Process: 77d8e698ed4584d6a2b61608b34a10bd) LCA distance 0 completed with a neighborhood size of 8.
+[2023-04-25 15:23:31,533]    INFO [ILPSolver] (Process: 77d8e698ed4584d6a2b61608b34a10bd) LCA distance 1 completed with a neighborhood size of 8.
+[2023-04-25 15:23:31,534]    INFO [ILPSolver] (Process: 77d8e698ed4584d6a2b61608b34a10bd) LCA distance 2 completed with a neighborhood size of 9.
+[2023-04-25 15:23:31,536]    INFO [ILPSolver] (Process: 77d8e698ed4584d6a2b61608b34a10bd) LCA distance 3 completed with a neighborhood size of 9.

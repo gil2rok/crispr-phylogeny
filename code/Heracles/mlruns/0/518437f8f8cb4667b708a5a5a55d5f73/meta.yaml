@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/518437f8f8cb4667b708a5a5a55d5f73/artifacts
+end_time: 1681762953527
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 518437f8f8cb4667b708a5a5a55d5f73
+run_name: redolent-chimp-673
+run_uuid: 518437f8f8cb4667b708a5a5a55d5f73
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681762953511
+status: 4
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/43ba242851e74ea7838e5cbf60c8d4e9/artifacts
+end_time: 1682441089615
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 43ba242851e74ea7838e5cbf60c8d4e9
+run_name: languid-quail-102
+run_uuid: 43ba242851e74ea7838e5cbf60c8d4e9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682441089404
+status: 4
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/038a97a058c546ed9e94962d8614ca1f/artifacts
+end_time: 1682048331521
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 038a97a058c546ed9e94962d8614ca1f
+run_name: gentle-tern-697
+run_uuid: 038a97a058c546ed9e94962d8614ca1f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682048267984
+status: 3
+tags: []
+user_id: gil2rok

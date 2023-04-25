@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/eeb97fc76f2d436a904a51170561fe20/artifacts
+end_time: 1682439885837
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: eeb97fc76f2d436a904a51170561fe20
+run_name: flawless-koi-247
+run_uuid: eeb97fc76f2d436a904a51170561fe20
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439885652
+status: 4
+tags: []
+user_id: gil2rok

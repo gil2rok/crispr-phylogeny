@@ -1,3 +1,39 @@
+# April 25th, 2023
+(25/04/2023)
+
+## To-Do :brain: :
+- Implement Felsteinstein's algorithm to estimate $\pi$ accurately
+- Implement efficent :gear: matrix exponentiation operation $P = \textrm{expm}(Q)$
+
+- Evaluate model performance via (1) :white_check_mark: distance matrix correlation, (2) :white_check_mark: triplets correct (tree comparison), and (3) :x: robinson-fould's distance (tree comparison).
+  - Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc. This estimated tree is necessary for Robinson Fould metric.
+- Install `gurobi` optimization software -- but need to request an appropriate (academic) license :cry:
+- Transfer code to run on GPU and on lab's compute cluster :floppy_disk: :zap:
+- <details>
+  <summary> Long Term </summary>
+
+  - Add feature to `geoopt` to fix inappropriate behavior of `arcosh` function and `arcsinh` function 
+  - Add feature to `geoopt` to maximize optimizers instead of just minimizing them
+  - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
+  - :rotating_light: I have a character matrix `cm` and turn it into a pairwise distance matrix `pdm` with ancestry-aware hamming distance. However, why do I estimate a tree from `pdm` and *only then* embedd my points in hyperbolic space? **Does it make more sense to embedd my pairwise distance matrix `pdm` into hyperbolic space directly?**
+  - :rotating_light: **Should I add blank cell casette `[0 ... 0]` for root node?** I could add an auxilarly loss function that ensures that this root node is far away (perhaps equi-distantly far away) from all other leaf nodes.
+    - This takes advantage of CRISPR specific modelling as we have acess to leaf cells but *also* know that there exists a cell with a blank, empty casette.
+</details>
+
+
+## Done :white_check_mark: :
+
+## Notes :pencil: :
+
+## Questions :question: :
+
+# April 17th, 2023
+(17/04/2023)
+
+## Meeting :handshake: :
+- Confirmed that triplets correct is implemented correctly!
+- :star: Modify triplets correct function by replacing `critique_utilities.get_outgroup()` function with code that determines from my hyperbolic embeddings, which leaf node is the "outgroup" node.
+
 # April 16th, 2023
 (16/04/2023)
 

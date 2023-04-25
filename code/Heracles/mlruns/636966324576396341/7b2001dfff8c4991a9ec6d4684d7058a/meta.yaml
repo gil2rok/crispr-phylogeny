@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/7b2001dfff8c4991a9ec6d4684d7058a/artifacts
+end_time: 1682047706939
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 7b2001dfff8c4991a9ec6d4684d7058a
+run_name: unequaled-moth-607
+run_uuid: 7b2001dfff8c4991a9ec6d4684d7058a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682047646333
+status: 3
+tags: []
+user_id: gil2rok

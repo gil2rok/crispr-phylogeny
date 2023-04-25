@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/b48fe5f9f07a427ea7ff4e43b038def7/artifacts
+end_time: 1682084331922
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: b48fe5f9f07a427ea7ff4e43b038def7
+run_name: puzzled-horse-851
+run_uuid: b48fe5f9f07a427ea7ff4e43b038def7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084331909
+status: 4
+tags: []
+user_id: gil2rok

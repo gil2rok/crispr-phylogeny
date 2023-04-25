@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/1d351b72bdd844b7b8ceb29dc1a84d03/artifacts
+end_time: 1682084406476
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 1d351b72bdd844b7b8ceb29dc1a84d03
+run_name: amusing-lynx-297
+run_uuid: 1d351b72bdd844b7b8ceb29dc1a84d03
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084406463
+status: 4
+tags: []
+user_id: gil2rok

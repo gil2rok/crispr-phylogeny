@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/43468a0fe0fc49c381e2c20ea36a2f1d/artifacts
+end_time: 1682439793806
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 43468a0fe0fc49c381e2c20ea36a2f1d
+run_name: mysterious-cow-330
+run_uuid: 43468a0fe0fc49c381e2c20ea36a2f1d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439793611
+status: 4
+tags: []
+user_id: gil2rok

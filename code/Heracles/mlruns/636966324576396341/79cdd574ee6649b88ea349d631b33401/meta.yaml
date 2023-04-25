@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/79cdd574ee6649b88ea349d631b33401/artifacts
+end_time: 1682084319393
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 79cdd574ee6649b88ea349d631b33401
+run_name: nimble-dolphin-584
+run_uuid: 79cdd574ee6649b88ea349d631b33401
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084319360
+status: 4
+tags: []
+user_id: gil2rok

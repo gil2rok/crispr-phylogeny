@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/d7b62199b0474ba388ccf7c8f63994ca/artifacts
+end_time: 1682084330740
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: d7b62199b0474ba388ccf7c8f63994ca
+run_name: flawless-conch-837
+run_uuid: d7b62199b0474ba388ccf7c8f63994ca
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084330725
+status: 4
+tags: []
+user_id: gil2rok

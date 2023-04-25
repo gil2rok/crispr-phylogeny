@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/4c4597187f3b45c494cde8b6ba4122aa/artifacts
+end_time: 1682084317926
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 4c4597187f3b45c494cde8b6ba4122aa
+run_name: sedate-auk-875
+run_uuid: 4c4597187f3b45c494cde8b6ba4122aa
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084317908
+status: 4
+tags: []
+user_id: gil2rok

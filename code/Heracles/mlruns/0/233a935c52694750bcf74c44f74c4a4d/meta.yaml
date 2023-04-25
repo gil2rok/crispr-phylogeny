@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/233a935c52694750bcf74c44f74c4a4d/artifacts
+end_time: 1682440877836
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 233a935c52694750bcf74c44f74c4a4d
+run_name: unleashed-roo-635
+run_uuid: 233a935c52694750bcf74c44f74c4a4d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682440877615
+status: 4
+tags: []
+user_id: gil2rok

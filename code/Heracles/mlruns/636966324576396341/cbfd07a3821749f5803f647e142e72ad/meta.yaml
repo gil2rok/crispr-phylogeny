@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/cbfd07a3821749f5803f647e142e72ad/artifacts
+end_time: 1682086649336
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: cbfd07a3821749f5803f647e142e72ad
+run_name: redolent-trout-651
+run_uuid: cbfd07a3821749f5803f647e142e72ad
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682086624885
+status: 4
+tags: []
+user_id: gil2rok

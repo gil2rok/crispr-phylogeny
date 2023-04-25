@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/511e19b7478e41d786803e88719648b3/artifacts
+end_time: 1682084844759
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 511e19b7478e41d786803e88719648b3
+run_name: intelligent-colt-13
+run_uuid: 511e19b7478e41d786803e88719648b3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084822612
+status: 4
+tags: []
+user_id: gil2rok

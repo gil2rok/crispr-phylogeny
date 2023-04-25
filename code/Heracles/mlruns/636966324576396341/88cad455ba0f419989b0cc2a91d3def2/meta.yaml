@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/88cad455ba0f419989b0cc2a91d3def2/artifacts
+end_time: 1681961997538
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 88cad455ba0f419989b0cc2a91d3def2
+run_name: fun-hawk-618
+run_uuid: 88cad455ba0f419989b0cc2a91d3def2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681961988344
+status: 4
+tags: []
+user_id: gil2rok

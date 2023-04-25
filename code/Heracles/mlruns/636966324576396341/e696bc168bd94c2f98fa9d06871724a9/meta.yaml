@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/e696bc168bd94c2f98fa9d06871724a9/artifacts
+end_time: 1682044558270
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: e696bc168bd94c2f98fa9d06871724a9
+run_name: wise-mink-707
+run_uuid: e696bc168bd94c2f98fa9d06871724a9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682044492834
+status: 3
+tags: []
+user_id: gil2rok

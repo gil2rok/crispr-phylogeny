@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/66709d682a7547dc922b1c02fcd44617/artifacts
+end_time: 1682086545188
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 66709d682a7547dc922b1c02fcd44617
+run_name: enchanting-ape-374
+run_uuid: 66709d682a7547dc922b1c02fcd44617
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682086544161
+status: 4
+tags: []
+user_id: gil2rok

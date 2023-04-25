@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/e2e360e63353442e99107faeabf4cc3e/artifacts
+end_time: 1682037972737
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: e2e360e63353442e99107faeabf4cc3e
+run_name: respected-boar-210
+run_uuid: e2e360e63353442e99107faeabf4cc3e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682037913692
+status: 3
+tags: []
+user_id: gil2rok

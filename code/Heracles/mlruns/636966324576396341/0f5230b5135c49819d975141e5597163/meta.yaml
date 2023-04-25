@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/0f5230b5135c49819d975141e5597163/artifacts
+end_time: 1682084378965
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 0f5230b5135c49819d975141e5597163
+run_name: loud-calf-673
+run_uuid: 0f5230b5135c49819d975141e5597163
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084378952
+status: 4
+tags: []
+user_id: gil2rok

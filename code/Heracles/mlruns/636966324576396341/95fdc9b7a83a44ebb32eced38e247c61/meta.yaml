@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/95fdc9b7a83a44ebb32eced38e247c61/artifacts
+end_time: 1681961632637
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 95fdc9b7a83a44ebb32eced38e247c61
+run_name: polite-squirrel-191
+run_uuid: 95fdc9b7a83a44ebb32eced38e247c61
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681961533073
+status: 4
+tags: []
+user_id: gil2rok

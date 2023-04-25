@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/33a9d8c2f53143bfb049114d5312780e/artifacts
+end_time: 1681961668412
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 33a9d8c2f53143bfb049114d5312780e
+run_name: flawless-duck-378
+run_uuid: 33a9d8c2f53143bfb049114d5312780e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681961665667
+status: 4
+tags: []
+user_id: gil2rok
