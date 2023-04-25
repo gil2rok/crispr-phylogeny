@@ -173,13 +173,8 @@ def contains(v, rho, atol=1e-7):
     return (torch.allclose(mdp, - torch.pow(rho, 2), atol=atol) or 
             torch.allclose(mdp, - rho, atol=atol))
    
-def generate_Q(num_sites, num_states):
-    
-    deletion_rate = 9e-4 # global deletion rate 
-    mutation_rate = [0.1] * num_sites # site-specific mutation rate
-    indel_distribution = [1/num_states] * num_states
-    
-    Q = torch.zeros(num_sites + num_states + 1, num_sites + num_states + 1)
+def generate_Q(num_sites, num_states, deletion_rate, mutation_rate, indel_distribution):    
+    Q = np.zeros((num_sites + num_states + 1, num_sites + num_states + 1))
 
     for i in range(num_sites + num_states): # fill in diagonals
         if i < num_sites:
@@ -194,4 +189,4 @@ def generate_Q(num_sites, num_states):
     for i in range(num_sites + num_states):
         Q[i, -1] = deletion_rate
         
-    return Q
+    return torch.tensor(Q)

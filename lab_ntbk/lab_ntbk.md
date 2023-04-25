@@ -7,12 +7,13 @@
 
 - Evaluate model performance via (1) :white_check_mark: distance matrix correlation, (2) :white_check_mark: triplets correct (tree comparison), and (3) :x: robinson-fould's distance (tree comparison).
   - Create util function that creates an estimated tree from a dist matrix with neighbor joining, UPGMA, BIONJ, and Weighbor, etc. This estimated tree is necessary for Robinson Fould metric.
-- Install `gurobi` optimization software -- but need to request an appropriate (academic) license :cry:
-- Transfer code to run on GPU and on lab's compute cluster :floppy_disk: :zap:
+- Install `gurobi` optimization software for Cassiopeia's `ILPSolver()` class -- but need to request an appropriate (academic) license :cry:. (This software is not necessary to run the `VanillaGreedySolver()` from Cassipeia -- which is what I'm primarily going to be benchmarking against)
+- How to determine the best embeddings for a given character matrix `cm`? If I pick the minimum loss, is this overfitting?
 - <details>
   <summary> Long Term </summary>
 
   - Add feature to `geoopt` to fix inappropriate behavior of `arcosh` function and `arcsinh` function 
+  - Transfer code to run on GPU and on lab's compute cluster :floppy_disk: :zap:
   - Add feature to `geoopt` to maximize optimizers instead of just minimizing them
   - Alternatively add option to pass `**kwargs` into optimizers from `geoopt`'s optimizer class into `PyTorch`'s optimizer class
   - :rotating_light: I have a character matrix `cm` and turn it into a pairwise distance matrix `pdm` with ancestry-aware hamming distance. However, why do I estimate a tree from `pdm` and *only then* embedd my points in hyperbolic space? **Does it make more sense to embedd my pairwise distance matrix `pdm` into hyperbolic space directly?**
@@ -26,6 +27,8 @@
 ## Notes :pencil: :
 
 ## Questions :question: :
+- In my code, I take a character matrix `cm` and output embeddings `X` via the following pipeline: `cm` -> `pdm` -> estimated tree `T` -> hyperbolic embedding `X`. Do these series of transformations preserve order? I.e. is `cm[i,:]` the same as `X[i,:]`? I think so, but I'm not sure. This is particularly important for the `triplets_correct` metric when computing the outgroup from leaves `(i, j, k)`.
+- Do I need to write code to estimate my infinitesimal generator `Q`? Or is this data included somehow in the Cassiopeia benchmark data.
 
 # April 17th, 2023
 (17/04/2023)

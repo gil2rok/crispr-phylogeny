@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/1cceffafb85244449cdd7fdfdfb16e0e/artifacts
+end_time: 1682457325197
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1cceffafb85244449cdd7fdfdfb16e0e
+run_name: awesome-crane-256
+run_uuid: 1cceffafb85244449cdd7fdfdfb16e0e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682457325183
+status: 4
+tags: []
+user_id: gil2rok
