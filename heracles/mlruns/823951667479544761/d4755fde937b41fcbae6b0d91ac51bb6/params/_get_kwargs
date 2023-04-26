@@ -1,1 +1,0 @@
-<bound method _AttributeHolder._get_kwargs of Namespace(tree_path='data/true_tree', params_path='data/params', save_path='saved', seed=0, exp_name='heracles training', num_epochs=30, lr=0.05, embedding_dim=2, rho=2, stabilize=1, tree_reconstruction='neighbor-joining')>
