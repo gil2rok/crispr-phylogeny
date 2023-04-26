@@ -1,0 +1,1 @@
+<bound method _AttributeHolder._get_args of Namespace(tree_path='data/true_tree', params_path='data/params', save_path='saved', seed=0, exp_name='heracles training', num_epochs=30, lr=0.05, embedding_dim=3, rho=tensor(2., dtype=torch.float64), stabilize=1, tree_reconstruction='neighbor-joining')>

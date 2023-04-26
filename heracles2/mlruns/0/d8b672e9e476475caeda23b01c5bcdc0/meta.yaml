@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/d8b672e9e476475caeda23b01c5bcdc0/artifacts
+end_time: 1682447904421
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d8b672e9e476475caeda23b01c5bcdc0
+run_name: resilient-cod-250
+run_uuid: d8b672e9e476475caeda23b01c5bcdc0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447904407
+status: 4
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/d91809cc828d49d7b3f3599035fccb23/artifacts
+end_time: 1682537250798
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: d91809cc828d49d7b3f3599035fccb23
+run_name: smiling-ape-358
+run_uuid: d91809cc828d49d7b3f3599035fccb23
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682537222146
+status: 3
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/0a1515b974c94113af1d412188c9b72f/artifacts
+end_time: 1682536295385
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 0a1515b974c94113af1d412188c9b72f
+run_name: crawling-rook-350
+run_uuid: 0a1515b974c94113af1d412188c9b72f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682536267320
+status: 3
+tags: []
+user_id: gil2rok

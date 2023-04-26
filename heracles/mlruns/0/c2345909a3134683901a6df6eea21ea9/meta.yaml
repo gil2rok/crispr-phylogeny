@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/c2345909a3134683901a6df6eea21ea9/artifacts
+end_time: 1682535575042
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c2345909a3134683901a6df6eea21ea9
+run_name: beautiful-bug-183
+run_uuid: c2345909a3134683901a6df6eea21ea9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682535547998
+status: 3
+tags: []
+user_id: gil2rok

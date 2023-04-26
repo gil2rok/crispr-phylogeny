@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/de557c9be5cc4b2da053c25e9754a9f7/artifacts
+end_time: 1682537322984
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: de557c9be5cc4b2da053c25e9754a9f7
+run_name: enchanting-lark-212
+run_uuid: de557c9be5cc4b2da053c25e9754a9f7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682537312367
+status: 4
+tags: []
+user_id: gil2rok

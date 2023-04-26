@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/5045aa4686f6483e819046dd5ddb6808/artifacts
+end_time: 1682439820119
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5045aa4686f6483e819046dd5ddb6808
+run_name: unequaled-bass-9
+run_uuid: 5045aa4686f6483e819046dd5ddb6808
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439819931
+status: 4
+tags: []
+user_id: gil2rok

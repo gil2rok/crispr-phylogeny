@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/042f36d6ab4e49be8a00c02c2b146f59/artifacts
+end_time: 1682534266118
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 042f36d6ab4e49be8a00c02c2b146f59
+run_name: persistent-colt-445
+run_uuid: 042f36d6ab4e49be8a00c02c2b146f59
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682534265900
+status: 4
+tags: []
+user_id: gil2rok

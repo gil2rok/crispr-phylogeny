@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/01ddf1b917024556a3b8a0e776d027ac/artifacts
+end_time: 1682084406677
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 01ddf1b917024556a3b8a0e776d027ac
+run_name: peaceful-horse-414
+run_uuid: 01ddf1b917024556a3b8a0e776d027ac
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084406665
+status: 4
+tags: []
+user_id: gil2rok

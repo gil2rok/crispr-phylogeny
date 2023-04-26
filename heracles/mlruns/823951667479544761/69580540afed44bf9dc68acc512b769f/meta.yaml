@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/69580540afed44bf9dc68acc512b769f/artifacts
+end_time: 1682537379311
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 69580540afed44bf9dc68acc512b769f
+run_name: shivering-ape-834
+run_uuid: 69580540afed44bf9dc68acc512b769f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682537350958
+status: 3
+tags: []
+user_id: gil2rok

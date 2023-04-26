@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/bf76b8fa15e44010b038bf3b1c8580fc/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: bf76b8fa15e44010b038bf3b1c8580fc
+run_name: youthful-bird-587
+run_uuid: bf76b8fa15e44010b038bf3b1c8580fc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682532729650
+status: 1
+tags: []
+user_id: gil2rok

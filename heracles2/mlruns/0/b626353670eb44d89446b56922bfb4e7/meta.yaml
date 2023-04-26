@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/b626353670eb44d89446b56922bfb4e7/artifacts
+end_time: 1682447372724
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b626353670eb44d89446b56922bfb4e7
+run_name: marvelous-sloth-515
+run_uuid: b626353670eb44d89446b56922bfb4e7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447344003
+status: 4
+tags: []
+user_id: gil2rok

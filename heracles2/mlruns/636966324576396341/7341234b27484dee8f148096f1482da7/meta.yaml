@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/7341234b27484dee8f148096f1482da7/artifacts
+end_time: 1682038167881
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 7341234b27484dee8f148096f1482da7
+run_name: secretive-squid-772
+run_uuid: 7341234b27484dee8f148096f1482da7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682038108606
+status: 3
+tags: []
+user_id: gil2rok

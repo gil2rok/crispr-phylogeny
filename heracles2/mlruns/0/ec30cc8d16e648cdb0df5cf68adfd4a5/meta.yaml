@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/ec30cc8d16e648cdb0df5cf68adfd4a5/artifacts
+end_time: 1682439813550
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ec30cc8d16e648cdb0df5cf68adfd4a5
+run_name: sedate-cat-844
+run_uuid: ec30cc8d16e648cdb0df5cf68adfd4a5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439813360
+status: 4
+tags: []
+user_id: gil2rok

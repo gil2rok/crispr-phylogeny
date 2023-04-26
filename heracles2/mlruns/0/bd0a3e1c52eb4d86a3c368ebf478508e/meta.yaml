@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/bd0a3e1c52eb4d86a3c368ebf478508e/artifacts
+end_time: 1681502154352
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: bd0a3e1c52eb4d86a3c368ebf478508e
+run_name: gentle-asp-267
+run_uuid: bd0a3e1c52eb4d86a3c368ebf478508e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681181822644
+status: 3
+tags: []
+user_id: gil2rok

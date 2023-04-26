@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/1fb662e8232448b29a95dd6a1c78961b/artifacts
+end_time: 1682035893289
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 1fb662e8232448b29a95dd6a1c78961b
+run_name: loud-hound-485
+run_uuid: 1fb662e8232448b29a95dd6a1c78961b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682035883238
+status: 4
+tags: []
+user_id: gil2rok

@@ -1,0 +1,6 @@
+artifact_location: mlflow-artifacts:/757608937812121778
+creation_time: 1682535923969
+experiment_id: '757608937812121778'
+last_update_time: 1682535923969
+lifecycle_stage: active
+name: heracles_training

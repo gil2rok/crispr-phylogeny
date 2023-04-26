@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/242e507f760045728b01261a8b56a272/artifacts
+end_time: 1682039089911
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 242e507f760045728b01261a8b56a272
+run_name: carefree-hound-395
+run_uuid: 242e507f760045728b01261a8b56a272
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682039069598
+status: 3
+tags: []
+user_id: gil2rok

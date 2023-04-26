@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/6e48b55fd1c34b70991d6c1863fb9d0e/artifacts
+end_time: 1682447334385
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 6e48b55fd1c34b70991d6c1863fb9d0e
+run_name: likeable-bee-155
+run_uuid: 6e48b55fd1c34b70991d6c1863fb9d0e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447334193
+status: 4
+tags: []
+user_id: gil2rok

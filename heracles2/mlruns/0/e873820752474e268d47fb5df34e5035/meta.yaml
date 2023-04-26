@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/e873820752474e268d47fb5df34e5035/artifacts
+end_time: 1682447403778
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e873820752474e268d47fb5df34e5035
+run_name: hilarious-pig-223
+run_uuid: e873820752474e268d47fb5df34e5035
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447382395
+status: 3
+tags: []
+user_id: gil2rok

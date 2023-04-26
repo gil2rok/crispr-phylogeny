@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/57fc232fedb54172913f57d4819454a9/artifacts
+end_time: 1682439791333
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 57fc232fedb54172913f57d4819454a9
+run_name: aged-calf-748
+run_uuid: 57fc232fedb54172913f57d4819454a9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439791004
+status: 4
+tags: []
+user_id: gil2rok

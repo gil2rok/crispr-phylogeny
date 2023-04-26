@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/b624e7ccb0d64026a75de90247c451a0/artifacts
+end_time: 1682084331372
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: b624e7ccb0d64026a75de90247c451a0
+run_name: worried-moth-480
+run_uuid: b624e7ccb0d64026a75de90247c451a0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084331359
+status: 4
+tags: []
+user_id: gil2rok

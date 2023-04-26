@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/29a5ec78f8ed4b7a9ed404b46cbda0b7/artifacts
+end_time: 1682535875305
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 29a5ec78f8ed4b7a9ed404b46cbda0b7
+run_name: nosy-steed-35
+run_uuid: 29a5ec78f8ed4b7a9ed404b46cbda0b7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682535875239
+status: 4
+tags: []
+user_id: gil2rok

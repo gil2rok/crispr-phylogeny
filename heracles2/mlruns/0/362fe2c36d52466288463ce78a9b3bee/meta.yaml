@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/362fe2c36d52466288463ce78a9b3bee/artifacts
+end_time: 1681687389401
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 362fe2c36d52466288463ce78a9b3bee
+run_name: valuable-hawk-624
+run_uuid: 362fe2c36d52466288463ce78a9b3bee
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681687280328
+status: 3
+tags: []
+user_id: gil2rok

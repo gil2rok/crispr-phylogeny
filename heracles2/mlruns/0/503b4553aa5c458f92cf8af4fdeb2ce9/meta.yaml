@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/503b4553aa5c458f92cf8af4fdeb2ce9/artifacts
+end_time: 1681696526311
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 503b4553aa5c458f92cf8af4fdeb2ce9
+run_name: overjoyed-gnat-645
+run_uuid: 503b4553aa5c458f92cf8af4fdeb2ce9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681696526299
+status: 4
+tags: []
+user_id: gil2rok

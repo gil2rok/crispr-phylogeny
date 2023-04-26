@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/850246575735457572/5d054c1d84e240239017accfd1cdd796/artifacts
+end_time: 1681151629378
+entry_point_name: ''
+experiment_id: '850246575735457572'
+lifecycle_stage: active
+run_id: 5d054c1d84e240239017accfd1cdd796
+run_name: glamorous-sloth-529
+run_uuid: 5d054c1d84e240239017accfd1cdd796
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681143547060
+status: 3
+tags: []
+user_id: gil2rok

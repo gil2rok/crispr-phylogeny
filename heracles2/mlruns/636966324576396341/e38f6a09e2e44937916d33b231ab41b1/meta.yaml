@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/e38f6a09e2e44937916d33b231ab41b1/artifacts
+end_time: 1681961348228
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: e38f6a09e2e44937916d33b231ab41b1
+run_name: serious-fox-417
+run_uuid: e38f6a09e2e44937916d33b231ab41b1
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681961333747
+status: 4
+tags: []
+user_id: gil2rok

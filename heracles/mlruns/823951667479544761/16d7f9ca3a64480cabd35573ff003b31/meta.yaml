@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/16d7f9ca3a64480cabd35573ff003b31/artifacts
+end_time: 1682531219120
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 16d7f9ca3a64480cabd35573ff003b31
+run_name: serious-gull-371
+run_uuid: 16d7f9ca3a64480cabd35573ff003b31
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682531218460
+status: 4
+tags: []
+user_id: gil2rok

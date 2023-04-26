@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/29dfac64454a4e5794291493842fe341/artifacts
+end_time: 1682084331755
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 29dfac64454a4e5794291493842fe341
+run_name: big-panda-984
+run_uuid: 29dfac64454a4e5794291493842fe341
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682084331743
+status: 4
+tags: []
+user_id: gil2rok

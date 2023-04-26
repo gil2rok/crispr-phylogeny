@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/5cbc91699fe346439512629a2ff18e94/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 5cbc91699fe346439512629a2ff18e94
+run_name: clumsy-cat-931
+run_uuid: 5cbc91699fe346439512629a2ff18e94
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682534369273
+status: 1
+tags: []
+user_id: gil2rok

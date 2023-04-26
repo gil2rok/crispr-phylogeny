@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/e36ca01a9952473089a3adc1accd46dd/artifacts
+end_time: 1682447749900
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e36ca01a9952473089a3adc1accd46dd
+run_name: resilient-seal-111
+run_uuid: e36ca01a9952473089a3adc1accd46dd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447749704
+status: 4
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/bed589df3bf54dcda51e2035c4eedc0b/artifacts
+end_time: 1682447928548
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: bed589df3bf54dcda51e2035c4eedc0b
+run_name: caring-toad-985
+run_uuid: bed589df3bf54dcda51e2035c4eedc0b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682447906193
+status: 3
+tags: []
+user_id: gil2rok

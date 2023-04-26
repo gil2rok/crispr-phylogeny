@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/636966324576396341/668c946a7590474b966fc06cb12dfc23/artifacts
+end_time: 1681961381360
+entry_point_name: ''
+experiment_id: '636966324576396341'
+lifecycle_stage: active
+run_id: 668c946a7590474b966fc06cb12dfc23
+run_name: valuable-ram-979
+run_uuid: 668c946a7590474b966fc06cb12dfc23
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681961364736
+status: 4
+tags: []
+user_id: gil2rok

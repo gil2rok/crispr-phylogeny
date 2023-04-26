@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/fae303b6dc75454c9036a5f73c3114b3/artifacts
+end_time: 1682534878049
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: fae303b6dc75454c9036a5f73c3114b3
+run_name: resilient-moose-828
+run_uuid: fae303b6dc75454c9036a5f73c3114b3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682534878039
+status: 4
+tags: []
+user_id: gil2rok

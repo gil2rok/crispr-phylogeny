@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/2bc7b951ab5944ac94b036cbb1384de8/artifacts
+end_time: 1682534321935
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 2bc7b951ab5944ac94b036cbb1384de8
+run_name: calm-goat-129
+run_uuid: 2bc7b951ab5944ac94b036cbb1384de8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682534321097
+status: 4
+tags: []
+user_id: gil2rok

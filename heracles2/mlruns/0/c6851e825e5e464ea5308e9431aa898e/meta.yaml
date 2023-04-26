@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/c6851e825e5e464ea5308e9431aa898e/artifacts
+end_time: 1681666299289
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: c6851e825e5e464ea5308e9431aa898e
+run_name: polite-fowl-230
+run_uuid: c6851e825e5e464ea5308e9431aa898e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1681663795159
+status: 3
+tags: []
+user_id: gil2rok

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/35bdf06c9e15415cab0f2d7f1f17ef26/artifacts
+end_time: 1682439851320
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 35bdf06c9e15415cab0f2d7f1f17ef26
+run_name: flawless-cow-956
+run_uuid: 35bdf06c9e15415cab0f2d7f1f17ef26
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682439851130
+status: 4
+tags: []
+user_id: gil2rok

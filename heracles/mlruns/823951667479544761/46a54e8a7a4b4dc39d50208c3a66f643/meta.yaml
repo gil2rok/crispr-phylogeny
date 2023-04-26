@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/46a54e8a7a4b4dc39d50208c3a66f643/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: 46a54e8a7a4b4dc39d50208c3a66f643
+run_name: calm-hawk-524
+run_uuid: 46a54e8a7a4b4dc39d50208c3a66f643
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682531470037
+status: 1
+tags: []
+user_id: gil2rok
