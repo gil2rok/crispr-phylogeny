@@ -5,7 +5,7 @@ HERACLES algorithm reconstructs CRISPR-Cas9 phylogenetic lineages with hyperboli
 
 **Note: this repo is under active development and is not yet fully functional**
 
-[![HERACLES](https://images.fineartamerica.com/images/artworkimages/mediumlarge/3/crispr-genetic-science-dna-substitution-drawing-frank-ramspott.jpg)](img)
+[![HERACLES](https://img.freepik.com/premium-vector/dna-molecule-structure-background-genetic-chemistry-research-hand-drawn-illustration-sketch_345837-710.jpg)](img)
 
 ## Overview
 
