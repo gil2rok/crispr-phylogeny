@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/823951667479544761/f88470c82bbc4797a1007097e4afe307/artifacts
+end_time: 1682539018434
+entry_point_name: ''
+experiment_id: '823951667479544761'
+lifecycle_stage: active
+run_id: f88470c82bbc4797a1007097e4afe307
+run_name: thundering-frog-214
+run_uuid: f88470c82bbc4797a1007097e4afe307
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682539017427
+status: 4
+tags: []
+user_id: gil2rok

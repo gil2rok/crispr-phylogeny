@@ -48,13 +48,12 @@ def lineage_tracing(true_tree, params, num_sites, num_states):
     )
     lt_sim.overlay_data(true_tree)    
 
-def main():    
+def simulate_data(transition_prob, num_sites=5, num_states=15, mutation_rate=0.4, deletion_rate=9e-4, path=path):    
     # hyper-parameters and parameters
-    num_sites = 5
-    num_states = 15
-    params = {'mutation_rate': np.repeat(0.4, num_sites),                       # mutation rates [λM_1, λM_2, ..., λM_NumSites]
-              'deletion_rate': np.array([9e-4]),                                # deletion rate λD
-              'transition_prob': {i: 1/num_states for i in range(num_states)}}  # simplex P = [p_1 ... p_NumStates]
+    
+    params = {'mutation_rate': np.repeat(mutation_rate, num_sites),     # mutation rates [λM_1, λM_2, ..., λM_NumSites]
+              'deletion_rate': np.array([deletion_rate]),               # deletion rate λD
+              'transition_prob': {i: transition_prob[i] for i in range(num_states)}}               # simplex P = [p_1 ... p_NumStates]
               # ^ probability p_i of transitioning from unedited state to mutated state i
 
     # simulate evolutionary tree and overly CRISPR-Cas9 data on top of it
@@ -72,4 +71,4 @@ def main():
     pickle.dump(params, file)
     
 if __name__ == '__main__':
-    main()
+    simulate_data()
