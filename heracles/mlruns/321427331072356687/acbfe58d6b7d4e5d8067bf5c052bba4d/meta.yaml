@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/gil2rok/school/peer_research/Heracles/heracles/mlruns/321427331072356687/acbfe58d6b7d4e5d8067bf5c052bba4d/artifacts
+end_time: 1682544053605
+entry_point_name: ''
+experiment_id: '321427331072356687'
+lifecycle_stage: active
+run_id: acbfe58d6b7d4e5d8067bf5c052bba4d
+run_name: placid-smelt-245
+run_uuid: acbfe58d6b7d4e5d8067bf5c052bba4d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682544031552
+status: 3
+tags: []
+user_id: gil2rok
