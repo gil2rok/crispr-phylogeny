@@ -3,11 +3,11 @@ import numpy as np
 from os import path
 
 from geoopt.optim import RiemannianSGD
-from logalike import Logalike
+from .logalike import Logalike
 from mlflow import log_metric, log_artifact
 
-from metrics import cas_triplets_correct, dist_correlation
-from util import generate_Q, char_to_dist, estimate_tree, embed_tree
+from .metrics import cas_triplets_correct, dist_correlation
+from .util import generate_Q, char_to_dist, estimate_tree, embed_tree
 
 def init(char_matrix, deletion_rate, mutation_rate, indel_distribution, 
               num_cells, num_sites, num_states, args):

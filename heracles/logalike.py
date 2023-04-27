@@ -4,8 +4,8 @@ from geoopt import ManifoldTensor, ManifoldParameter, Lorentz
 import matplotlib.pyplot as plt
 import numpy as np
 
-from hyperboloid_wilson import Hyperboloid
-from util import transition_matrix, wilson_to_geoopt, contains
+from .hyperboloid_wilson import Hyperboloid
+from .util import transition_matrix, wilson_to_geoopt, contains
     
 class Logalike(torch.nn.Module):
     def __init__(self, 

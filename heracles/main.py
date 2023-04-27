@@ -32,7 +32,6 @@ def main(args):
     
     # set up mlflow
     mlflow.set_tracking_uri('http://127.0.0.1:5000')  # set connection
-    # mlflow.set_tracking_uri('http://localhost:5000')
     mlflow.set_experiment(args.exp_name) # set the experiment
     run_name = None # TODO
     

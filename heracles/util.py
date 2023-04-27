@@ -10,7 +10,7 @@ from scipy.linalg import norm
 
 
 from dendropy import PhylogeneticDistanceMatrix as phylo_dist
-from hyperboloid_wilson import Hyperboloid
+from .hyperboloid_wilson import Hyperboloid
 
 def transition_matrix(t, Q):
     """ compute transition matrix P from infinitesimal generator Q and time t
