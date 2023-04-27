@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from .hyperboloid_wilson import Hyperboloid
-from .util import transition_matrix, wilson_to_geoopt, contains
+from .logalike_utils import transition_matrix, wilson_to_geoopt, contains, feasible_ancestors, map_indices, stationary_dist
     
 class Logalike(torch.nn.Module):
     def __init__(self, 
@@ -66,102 +66,3 @@ class Logalike(torch.nn.Module):
                 assert(cur > 0)
                 total += torch.log(cur)
         return total
-
-def feasible_ancestors(s_i, s_j, num_states):
-    """ generate feasible ancestors for states s_i, s_j
-    TODO: may need to be vectorized
-    
-    Args:
-        s_j [1] : state at site s for cell j
-        s_i [1] : state at site s for cell i
-        num_states (int): number of possible mutation states
-
-    Returns:
-        A ([1 x ?]): feasible ancestors of states s_i, s_j
-    """
-    
-    # TODO: transform ancester set A from a tensor to a list -- no need for backprop info
-        
-    # if states s_i and s_j are both unedited, their ancestor is unedited
-    if s_i == s_j == 0:
-        A = torch.tensor([0])
-    
-    # if have a deleted state
-    elif s_i == -1 or s_j == -1:
-        
-        # if both states are deleted, ancestor may be unedited or mutations 1...M
-        # ancestor may not be deleted -- continue to previous ancestor
-        if s_i == -1 and s_j == -1:
-            A = torch.arange(0, num_states +1)
-            
-        # if one state deleted and the other unedited, ancestor is unedited
-        elif s_i == 0 or s_j == 0:
-            A = torch.tensor([0])
-            
-        # if one state deleted and the other mutated, ancestor is unedited (0) or mutated
-        else:
-            A = torch.tensor([0, s_i + s_j])
-       
-    # if don't have a deleted state 
-    else:
-        # if states are the same mutation, ancestor is unedited or has same mutation
-        if s_i == s_j:
-            A = torch.tensor([0, s_i])
-        
-        # if states are different mutations, ancestor must be unedited
-        else:
-            A = torch.tensor([0])
-        
-    return A
-
-def map_indices(s_i, s_j, A, site, num_sites):
-    """ map feasible ancestors to correct indicies in transition matrix P
-
-    Args:
-        A (tensor): feasible ancestors
-        num_sites (int): number of target sites
-        site (int): target site at which feasible ancestors is being computed 
-
-    Returns:
-        A (list): modified feasible ancestors
-    """
-    
-    if s_i == 0:
-        s_i = site
-    elif s_i == -1:
-        s_i = -1
-    else:
-        s_i += num_sites - 1
-        
-    if s_j == 0:
-        s_j = site
-    elif s_j == -1:
-        s_j = -1
-    else:
-        s_j += num_sites - 1
-        
-    A = [site if a == 0 else a + num_sites - 1 for a in A] #TODO: check if correct
-    
-    return s_i, s_j, A
-
-def stationary_dist(num_states):
-    """ probability of state s_i according to stationary distribution
-    TODO: fix assumption that stationary distribution is uniform, instead use Felsenstein’s algorithm
-            Sitatra already implmented this in est_lca_priors
-    
-    Specifically return the probability of observing 
-    state s_i at site s for cell i according to the 
-    stationary distribution pi, defined by the Continous Time
-    Markov Chain of CRISPR evolution.
-    
-    Assume pi is uniform distribution over all M possible
-    mutation states: {0, 1 ... M_s, D}.
-
-    Args:
-        S (int): num possible states (S = |\sigma_i| = |{0, 1 ... M_{\sigma_i}, D}| )
- 
-    Returns:
-        [1]: probability of base s_i under stationary distribution pi
-    """
-    pi_si = 1 / num_states
-    return torch.tensor([pi_si])

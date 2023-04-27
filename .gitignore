@@ -1,3 +1,7 @@
+# MLFlow logging
+mlruns/
+mlartifacts/
+
 # Mac OS X
 .DS_Store
 

@@ -5,7 +5,7 @@ import torch
 import numpy as np
 import random
 
-from trainer import train
+from .trainer import train
 from os import path 
 
 def main(args):
