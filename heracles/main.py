@@ -5,7 +5,7 @@ import torch
 import numpy as np
 import random
 
-from .trainer import train
+from heracles.trainer import train
 from os import path 
 
 def main(args):
@@ -39,7 +39,7 @@ def main(args):
     args_dict['rho'] = args.rho.item() # convert rho to float for logging
     
     # train model with mlflow logging
-    with mlflow.start_run(): # TODO: add run name
+    with mlflow.start_run():
         mlflow.log_params(args_dict)
         mlflow.log_params({'deletion_rate': deletion_rate,
                           'mutation_rate': mutation_rate,

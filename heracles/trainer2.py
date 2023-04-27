@@ -11,36 +11,42 @@ from .hyperboloid_wilson import Hyperboloid
 from .metrics import cas_triplets_correct, dist_correlation
 from .logalike_utils import ancestry_aware_hamming_dist
 
-def init(char_matrix, deletion_rate, mutation_rate, indel_distribution, 
-              num_cells, num_sites, num_states, args):
+def init(char_matrix, mutation_rate, deletion_rate, transition_prob, 
+         num_sites, num_states, num_cells,
+         lr, embedding_dim, rho, stabilize, est_tree_method):
     
     # reconstruct infinitesimal generator Q
     Q_list = [None] * num_sites
     for i in range(num_sites):
         Q_list[i] = generate_Q(num_sites, num_states, deletion_rate, 
-                               mutation_rate, indel_distribution)
+                               mutation_rate, transition_prob)
         
     # intial hyperbolic embedding
     dist_matrix = char_to_dist(char_matrix) # pairwise distancess from character matrix
-    est_tree = estimate_tree(dist_matrix, method=args.tree_reconstruction) # estimate phylogenetic tree
-    X = embed_tree(est_tree, torch.sqrt(args.rho), num_cells, local_dim=args.embedding_dim-1)  # embed tree into hyperbolic space
+    est_tree = estimate_tree(dist_matrix, method=est_tree_method) # estimate phylogenetic tree
+    X = embed_tree(est_tree, torch.sqrt(rho), num_cells, local_dim=embedding_dim-1)  # embed tree into hyperbolic space
 
     # initalize logalike object and optimizer
-    l = Logalike(X, Q_list, char_matrix, num_states, args.rho, priors=None) # TODO: add priors
-    opt = RiemannianSGD([l.X], lr=args.lr, stabilize=args.stabilize)
+    l = Logalike(X, Q_list, char_matrix, num_states, rho, priors=None) # TODO: add priors
+    opt = RiemannianSGD([l.X], lr=lr, stabilize=stabilize)
     
     return l, opt
     
-def train(char_matrix, deletion_rate, mutation_rate, indel_distribution, 
-              num_cells, num_sites, num_states, args, true_tree=None):
-        
+def train(char_matrix, mutation_rate, deletion_rate, transition_prob, 
+          num_cells, num_sites, num_states,
+          seed, num_epochs, lr, embedding_dim, rho, stabilize, est_tree_method, true_tree):
+    
+    # convert rho to torch tensor
+    rho = torch.tensor(rho, dtype=torch.float64) 
+    
     # initialize logalike object and optimizer
-    l, opt = init(char_matrix, deletion_rate, mutation_rate, indel_distribution, 
-              num_cells, num_sites, num_states, args)
+    l, opt = init(char_matrix, mutation_rate, deletion_rate, transition_prob,
+                  num_sites, num_states, num_cells,
+                  lr, embedding_dim, rho, stabilize, est_tree_method)
     
     # iterate over epochs
-    best_epoch_loss = np.inf
-    for epoch in range(args.num_epochs):
+    best_epoch_loss, best_embeddings = np.inf, torch.clone(l.X.detach())
+    for epoch in range(num_epochs):
         epoch_loss = 0
 
         # iterate over all cells
@@ -53,15 +59,15 @@ def train(char_matrix, deletion_rate, mutation_rate, indel_distribution,
             
         # save best embedding
         if epoch_loss < best_epoch_loss:
-            save_embedding(l.X, args.save_path)
             best_epoch_loss = epoch_loss
+            best_embeddings = torch.clone(l.X.detach())
         
         # log metrics
         log_metric('epoch_loss', epoch_loss, step=epoch)
         if true_tree is not None:
-            log_metric('triplets correct', cas_triplets_correct(true_tree, l.X, args.rho), step=epoch)
-            log_metric('dist correlation', dist_correlation(true_tree, l.X, args.rho), step=epoch)
-
+            log_metric('triplets correct', cas_triplets_correct(true_tree, l.X, rho), step=epoch)
+            log_metric('dist correlation', dist_correlation(true_tree, l.X, rho), step=epoch)
+    return best_embeddings
 
 def save_embedding(X, save_path):
     fname = os.path.join(save_path, 'best_embedding.pt')
