@@ -57,3 +57,6 @@ def validate_args(char_matrix, mutation_rate, deletion_rate, transition_prob,
         rho >= 0
     except:
         raise ValueError('rho must be non-negative')
+    
+def save_log_artifact(artifact):
+    pass # TODO
