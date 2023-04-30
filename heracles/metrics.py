@@ -73,56 +73,7 @@ def repeat_embeddings(X, cm):
     counts_dict = Counter([tuple(row) for row in cm]) # dict[cell cassette] --> num times cell's casette appears in cm
     counts = torch.tensor(np.fromiter(counts_dict.values(), dtype=int)) # convert dict to torch tensor
     return torch.repeat_interleave(X, counts, axis=0)
-    
-def triplets_correct(true_tree, X, rho):
-    """ compute triplets correct btwn true and estimated trees
-    
-    Iterate over all 3-node subtrees comprised of leaf cells. Count how many
-    3-node subtrees have topologies that differ btwn true and estimated trees. 
-    
-    There are four possible topologies for subtree with leaf-nodes a,b,c:
-        (1) a,b share a parent
-        (2) a,c share a parent
-        (3) b,c share a parent
-        (4) a,b,c share a parent
-    Read https://academic.oup.com/sysbio/article/45/3/323/1616252 and
-    https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-S2-S18 
-    for more 
-    info.
-    
-    Args:
-        true_tree (Cassieopia tree): true phylogenetic tree
-        X (np [num_cells x embedding_dim]): hyperbolic cell embeddings
-        rho (float): negative curvate of Lorentz manifold
-
-    Returns:
-        int: number of triplets correct in X
-    """
-    
-    # preprocess
-    X = repeat_embeddings(X, true_tree.character_matrix.to_numpy())    
-    est_dist = embeddings_to_dist(X, rho)
-    true_dist = tree_to_dist(true_tree)
-    
-    num_cells = X.shape[0]
-    correct = 0 # num triplets correct
-    
-    # iterate over all triplets of cells
-    for i, j, k in combinations(range(num_cells), 3):
-        td1, td2, td3 = true_dist[i,j], true_dist[i,k], true_dist[j,k] # true distances
-        ed1, ed2, ed3 = est_dist[i,j], est_dist[i,k], est_dist[j,k] # estimated distances
-        
-        # compare toplogy of all three-node subtrees in true and estimated trees
-        # use true and estimated distance to check all four possible topologies
-        topology1 = (td1 < td2) and (ed1 < ed2)
-        topology2 = (td1 < td3) and (ed1 < ed3)
-        topology3 = (td2 < td3) and (ed2 < ed3)
-        topology4 = (td1 == td2 == td3) and (ed1 == ed2 == ed3)
-        
-        if  topology1 or topology2 or topology3 or topology4:
-            correct += 1
-    return correct / comb(num_cells, 3) # normalize by number of triplets
-
+ 
 def dist_correlation(true_tree, X, rho):
     """ compute correlation btwn true and estimated pairwise distances
 
@@ -143,11 +94,36 @@ def dist_correlation(true_tree, X, rho):
     # correlation btwn true and estimated distances
     return pearsonr(est_dist.flatten(), true_dist.flatten()).statistic
     
-def cas_triplets_correct(true_tree, X, rho, all_triplets=True):
+def heracles_triplets_correct(true_tree, X, rho, all_triplets=True):
+    """ compute triplets correct btwn true and estimated trees
+    
+    Iterate over all 3-node subtrees comprised of leaf cells. Count how many
+    3-node subtrees have topologies that differ btwn true and estimated trees. 
+    
+    There are four possible topologies for subtree with leaf-nodes a,b,c:
+        (1) a,b share a parent
+        (2) a,c share a parent
+        (3) b,c share a parent
+        (4) a,b,c share a parent
+    Read https://academic.oup.com/sysbio/article/45/3/323/1616252 and
+    https://bmcbioinformatics.biomedcentral.com/articles/10.1186/1471-2105-14-S2-S18 
+    for more 
+    info.
+    
+    Args:
+        true_tree (Cassieopia tree): true phylogenetic tree
+        X (np [num_cells x embedding_dim]): hyperbolic cell embeddings
+        rho (float): negative curvate of Lorentz manifold
+        all_triplets (bool): count all triplets correct or only resolved triplets correct
+
+    Returns:
+        int: number of triplets correct in X
+    """
+    
     # preprocess
     X = repeat_embeddings(X, true_tree.character_matrix.to_numpy())    
     est_dist = embeddings_to_dist(X, rho)
-    triplets = _cas_triplets_correct(true_tree, est_dist)
+    triplets = _heracles_triplets_correct(true_tree, est_dist)
     
     if all_triplets: # all triplets correct
         return np.mean(list(triplets[0].values()))
@@ -166,7 +142,7 @@ def get_outgroup(est_dist, triplet, cm):
     elif ed1 <= ed2 and ed1 <= ed3: 
         return k
                     
-def _cas_triplets_correct(
+def _heracles_triplets_correct(
     tree1: CassiopeiaTree,
     est_dist: np.ndarray,
     number_of_trials: int = 1000,

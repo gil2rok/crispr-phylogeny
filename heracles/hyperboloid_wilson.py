@@ -158,6 +158,9 @@ class Hyperboloid:
         if len(point) != self.local_dimension + 1:
             return False
         mdp = minkowski_dot(point, point)
+        # print('MDP & Rho**2:\t', mdp, - (self.rho**2))
+        # print('Point:\t', point)
+        # print()
         atol = 10 ** -1 * precision
         return np.isclose(mdp, -1 * self.rho ** 2, atol=atol)
 
@@ -268,4 +271,7 @@ class Hyperboloid:
                 angle = ((i + 1) / degree) * (2 * np.pi)  # angle 0 is reserved for the parent, in case of non-root node
                 tchild = child_edge.length * (np.cos(angle) * tangent1 + np.sin(angle) * tangent2)
                 vectors[child] = self.exponential(vectors[node], tchild)
+                
+                # print('exponential args:\t', vectors[node], tchild)
+                assert(self.contains(vectors[child]))
         return vectors
