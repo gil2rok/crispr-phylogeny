@@ -196,5 +196,5 @@ def stationary_dist(num_states):
         [1]: probability of base s_i under stationary distribution pi
     """
     
-    pi_si = 1 / num_states
-    return torch.tensor([pi_si])
+    # pi_si = 1 / num_states
+    return torch.tensor([0.5])

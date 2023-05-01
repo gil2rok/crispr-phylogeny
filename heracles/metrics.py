@@ -145,7 +145,7 @@ def get_outgroup(est_dist, triplet, cm):
 def _heracles_triplets_correct(
     tree1: CassiopeiaTree,
     est_dist: np.ndarray,
-    number_of_trials: int = 1000,
+    number_of_trials: int = 3000,
     min_triplets_at_depth: int = 1,
 ) -> Tuple[
     Dict[int, float], Dict[int, float], Dict[int, float], Dict[int, float]
